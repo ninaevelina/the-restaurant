@@ -26,4 +26,4 @@ const populateDbWithMockData = async (connectionString: string) => {
   }
 };
 
-populateDbWithMockData(process.env.MONGO_CONNECTION_STRING || "");
+populateDbWithMockData(process.env.MONGODB_URI || "");
