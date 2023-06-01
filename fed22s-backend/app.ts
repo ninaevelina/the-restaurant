@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-import "express-async-errors";
+// import "express-async-errors";
 import mongoose from "mongoose";
-import bookingRoutes from "./routes/bookingRoutes";
+import bookingRoutes from "./src/routes/bookingRoutes";
 import path from "path";
 import { json } from "express";
 import { env } from "process";
