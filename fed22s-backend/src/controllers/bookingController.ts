@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Booking } from "../models/Booking";
 
+
 export const createBooking: RequestHandler = async (req, res, next) => {
   const { people, date, sitting, guest } = req.body;
   const newBooking = await Booking.create({
@@ -37,4 +38,5 @@ export const updateBooking: RequestHandler = async (req, res, next) => {
   let booking = await Booking.findOneAndUpdate(sort, update, { new: true });
 
   return res.json(booking);
+
 };
