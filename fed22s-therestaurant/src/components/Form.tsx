@@ -2,7 +2,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { IBooking } from "../models/IBooking";
 import styled from "styled-components";
 import { IGuest } from "../models/IGuest";
+import { FormStyled } from "./styled/FormStyled";
 
+//det här måste sedan läggas in i vårat bookingstate med info från sittningar och kalender.
 export const Form = () => {
   const [newBooking, setNewBooking] = useState<IBooking>({
     _id: 0,
@@ -20,6 +22,7 @@ export const Form = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    console.log(newBooking);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,20 +38,21 @@ export const Form = () => {
         },
       }));
     }
-    if (e.target.type === "number") {
+    if (e.target.name === "phone") {
       setNewBooking((prevBooking) => ({
         ...prevBooking,
         guest: {
           ...prevBooking.guest,
-          [name]: +value,
+          [name]: value,
         },
       }));
     }
   };
+
   return (
     <>
       <div>
-        <form onSubmit={handleSubmit}>
+        <FormStyled onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"
@@ -56,6 +60,7 @@ export const Form = () => {
             value={newBooking.guest.name}
             onChange={handleChange}
           ></input>
+
           <input
             type="text"
             name="lastname"
@@ -63,6 +68,7 @@ export const Form = () => {
             value={newBooking.guest.lastname}
             onChange={handleChange}
           ></input>
+
           <input
             type="email"
             name="email"
@@ -70,15 +76,16 @@ export const Form = () => {
             value={newBooking.guest.email}
             onChange={handleChange}
           ></input>
+
           <input
             type="number"
-            name="phonenumber"
+            name="phone"
             placeholder="Phone"
             value={newBooking.guest.phone}
             onChange={handleChange}
           ></input>
           <button>Confirm Booking</button>
-        </form>
+        </FormStyled>
       </div>
     </>
   );
