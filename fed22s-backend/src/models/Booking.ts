@@ -1,15 +1,20 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { IGuest } from "./Guest";
 
-interface IBooking {
-  _id: Schema.Types.ObjectId;
+export interface IBooking {
+  // _id: Schema.Types.ObjectId;
   people: number;
   date: string;
-  tables: number[];
+  //tables: number[];
   sitting: string;
   guest: IGuest;
 }
 
-export const bookingSchema = new mongoose.Schema<IBooking>();
+export const bookingSchema = new Schema<IBooking>({
+  people: { type: Number, required: true },
+  date: { type: String, required: true },
+  sitting: { type: String, required: true },
+  guest: { type: {}, required: true },
+});
 
 export const Booking = model<IBooking>("Booking", bookingSchema);
