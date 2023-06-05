@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 import { IGuest } from "./Guest";
 
-interface IBooking {
+export interface IBooking {
   _id: Schema.Types.ObjectId;
   people: number;
   date: string;
