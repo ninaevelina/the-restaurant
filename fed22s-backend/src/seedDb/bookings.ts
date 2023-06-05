@@ -2,6 +2,7 @@ export const mockBookingsData = [
   {
     people: 5,
     date: "17 februari 2024",
+    tables: [],
     sitting: "first sitting",
     guest: {
       name: "Ellen",
@@ -13,6 +14,7 @@ export const mockBookingsData = [
   {
     people: 5,
     date: "5 maj 2025",
+    tables: [],
     sitting: "second sitting",
     guest: {
       name: "Elin",
@@ -24,6 +26,7 @@ export const mockBookingsData = [
   {
     people: 5,
     date: "3 Juni 2025",
+    tables: [],
     sitting: "first sitting",
     guest: {
       name: "Johan",
