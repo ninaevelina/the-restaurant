@@ -1,14 +1,14 @@
-import { Router } from "express";
-import {
-  getAllBookings,
-  deleteAdminBooking,
-  updateBooking,
-} from "../controllers/adminControllers";
+// import { Router } from "express";
+// import {
+//   getAllBookings,
+//   deleteAdminBooking,
+//   updateBooking,
+// } from "../controllers/adminControllers";
 
-const router: Router = Router();
+// const router: Router = Router();
 
-router.get("/", getAllBookings);
-router.put("/", updateBooking);
-router.delete("/booking/:id", deleteAdminBooking);
+// router.get("/", getAllBookings);
+// router.put("/booking/:id", updateBooking);
+// router.delete("/booking/:id", deleteAdminBooking);
 
-module.exports = router;
+// export default router;
