@@ -5,7 +5,7 @@ export interface IBooking {
   // _id: Schema.Types.ObjectId;
   people: number;
   date: string;
-  //tables: number[];
+  tables: number[];
   sitting: string;
   guest: IGuest;
 }
