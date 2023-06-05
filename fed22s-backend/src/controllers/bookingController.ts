@@ -1,25 +1,42 @@
 import { RequestHandler } from "express";
 import { Booking } from "../models/Booking";
 
-export const createBooking: RequestHandler = (req, res, next) => {
-  const booking = new Booking({});
-  res.json("test msg");
+
+export const createBooking: RequestHandler = async (req, res, next) => {
+  const { people, date, sitting, guest } = req.body;
+  const newBooking = await Booking.create({
+    people: people,
+    date: date,
+    sitting: sitting,
+    guest: guest,
+  });
+  return res.status(201).json(newBooking);
 };
 
 export const deleteBooking: RequestHandler = async (req, res, next) => {
-  const bookingID = req.params.id;
+  const bookingId = req.params.id;
 
-  const bookingToDelete = await Booking.findByIdAndRemove(bookingID);
-
-  if (!bookingToDelete) {
-    return res.sendStatus(404);
-  }
-
-  const response = await bookingToDelete.deleteOne();
+  await Booking.findByIdAndDelete(bookingId);
+  console.log("function has been run");
 
   return res.send("deleted").status(204);
 };
 
-export const updateBooking: RequestHandler = (req, res, next) => {
-  res.json("test msg");
+export const getAllBookings: RequestHandler = async (req, res, next) => {
+  const bookings = await Booking.find();
+  const totalBookings = await Booking.countDocuments();
+  return res.json(bookings);
+};
+
+export const updateBooking: RequestHandler = async (req, res, next) => {
+  const bookingId = req.params.id;
+
+  const { people, date, sitting, guest } = req.body;
+  const sort = { _id: bookingId };
+  const update = { people: people, date: date, sitting: sitting, guest: guest };
+
+  let booking = await Booking.findOneAndUpdate(sort, update, { new: true });
+
+  return res.json(booking);
+
 };
