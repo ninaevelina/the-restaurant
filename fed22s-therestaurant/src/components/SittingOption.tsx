@@ -4,11 +4,11 @@ import { CurrentBookingContext } from "../contexts/BookingContext";
 import { IBooking } from "../models/IBooking";
 
 export const SittingOption = () => {
-  const [first, setFirst] = useState(true);
-  const [second, setSecond] = useState(false);
+  // const [first, setFirst] = useState(true);
+  // const [second, setSecond] = useState(false);
   const { addBooking, booking } = useContext(CurrentBookingContext);
 
-  const handleClickFirst = (e: React.MouseEvent, theSitting: string) => {
+  const handleClickSitting = (e: React.MouseEvent, theSitting: string) => {
     e.preventDefault();
     const newSitting = {
       ...booking,
@@ -22,14 +22,14 @@ export const SittingOption = () => {
     <>
       <SittingButton
         onClick={(e) => {
-          handleClickFirst(e, "17-19");
+          handleClickSitting(e, "17-19");
         }}
       >
         17-19
       </SittingButton>
       <SittingButton
         onClick={(e) => {
-          handleClickFirst(e, "19-21");
+          handleClickSitting(e, "19-21");
         }}
       >
         19-21
