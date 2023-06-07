@@ -7,11 +7,10 @@ import bookingRoutes from "./src/routes/bookingRoutes";
 
 //import adminRoutes from "./src/routes/adminRoutes";
 
-
-
 import path from "path";
 import { json } from "express";
 import { env } from "process";
+import cors from "cors";
 
 const app = express();
 
@@ -23,10 +22,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(
+  cors({
+    origin: "http://localhost:4000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 app.use("/api/v1/booking", bookingRoutes);
 
 //app.use("/api/v1/admin", adminRoutes);
-
 
 app.use((req, res) => {
   const isApiPath = req.path.startsWith("/api/");
