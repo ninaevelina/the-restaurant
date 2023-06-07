@@ -1,34 +1,30 @@
 import axios from "axios";
 import { IBooking } from "../models/IBooking";
 import { useParams } from "react-router";
+import { IGuest } from "../models/IGuest";
+import { useState } from "react";
 
-interface newBookingProps {}
+const [people, setPeople] = useState(0);
+const [date, setDate] = useState("");
+const [sitting, setSitting] = useState("");
+const [tables, setTables] = useState([]);
+const [guest, setGuest] = useState<IGuest>();
+const [name, setName] = useState("");
+const [lastname, setLastname] = useState("");
+const [email, setEmail] = useState("");
+const [phone, setPhone] = useState("");
 
-// const articleData = { title, description, author, body };
-
-//     axios
-
-//       .post(
-
-//         "http://ec2-3-249-202-253.eu-west-1.compute.amazonaws.com/articles",
-
-//         articleData
-
-//       )
-
-//       .then((response) => {
-
-//         console.log(response);
-
-//       })
-
-//       .catch((error) => {
-
-//         console.log(error);
-
-//       });
-
-//   };
+const bookingData = {
+  people,
+  date,
+  sitting,
+  tables,
+  guest,
+  name,
+  lastname,
+  email,
+  phone,
+};
 
 //GET
 
@@ -37,32 +33,38 @@ export const getAllBookings = async () => {
     .get<IBooking[]>("http://localhost:4000/api/v1/booking")
     .then((response) => {
       console.log(response.data);
-      response.data;
+      return response.data;
     });
-
-  console.log(response);
-  return response;
 };
-getAllBookings();
 
 //CREATE
 
-export const createNewBooking = async (newBooking: newBookingProps) => {
+export const createNewBooking = async () => {
   const response = await axios
-    .post<IBooking>("", newBooking)
-    .then((response) => response.data);
-  // return response.data;
+    .post<IBooking>("http://localhost:4000/api/v1/booking", bookingData)
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    });
 };
 
 //PUT
 
-export const updateBooking = async () => {
-  const response = await axios.put<IBooking>("");
-  return response.data;
+export const updateBooking = async (id: number) => {
+  const response = await axios
+    .put<IBooking>(`http://localhost:4000/api/v1/booking/${id}`, bookingData)
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    });
 };
 
 //DELETE
 
-export const deleteBooking = async () => {
-  const response = await axios.delete<IBooking>("");
+export const deleteBooking = async (id: number) => {
+  const response = await axios
+    .delete<IBooking>(`http://localhost:4000/api/v1/booking/${id}`)
+    .then((response) => {
+      console.log(`deleted a booking with id ${id}`);
+    });
 };
