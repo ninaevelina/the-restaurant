@@ -14,21 +14,21 @@ import { IGuest } from "./models/IGuest";
 
 function App() {
   const [bookings, dispatch] = useReducer(BookingReducer, [{}]);
-  // const [allBookings, setAllBookings] = useState<IBooking[]>([
-  //   {
-  //     _id: 0,
-  //     people: 0,
-  //     date: "",
-  //     sitting: "",
-  //     tables: [],
-  //     guest: {
-  //       name: "",
-  //       lastname: "",
-  //       email: "",
-  //       phone: 0,
-  //     },
-  //   },
-  // ]);
+  const [allBookings, setAllBookings] = useState<IBooking[]>([
+    {
+      _id: 0,
+      people: 0,
+      date: "",
+      sitting: "",
+      tables: [],
+      guest: {
+        name: "",
+        lastname: "",
+        email: "",
+        phone: 0,
+      },
+    },
+  ]);
   const [currentBooking, setCurrentBooking] = useState<IBookingContext>({
     booking: {
       _id: 0,
