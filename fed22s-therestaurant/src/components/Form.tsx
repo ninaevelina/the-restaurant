@@ -1,11 +1,15 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { IBooking } from "../models/IBooking";
 import styled from "styled-components";
 import { IGuest } from "../models/IGuest";
 import { FormStyled } from "./styled/FormStyled";
+import { CurrentBookingContext } from "../contexts/BookingContext";
 
 //det här måste sedan läggas in i vårat bookingstate med info från sittningar och kalender.
 export const Form = () => {
+  const { addBooking } = useContext(CurrentBookingContext);
+  const { booking } = useContext(CurrentBookingContext);
+
   const [newBooking, setNewBooking] = useState<IBooking>({
     _id: 0,
     people: 0,
@@ -23,6 +27,7 @@ export const Form = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log(newBooking);
+    addBooking(newBooking);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +53,7 @@ export const Form = () => {
       }));
     }
   };
-
+  console.log(".........", booking);
   return (
     <>
       <div>
