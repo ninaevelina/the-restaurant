@@ -24,12 +24,6 @@ export const Form = () => {
     },
   });
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log(newBooking);
-    addBooking(newBooking);
-  };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -52,6 +46,12 @@ export const Form = () => {
         },
       }));
     }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // console.log(newBooking);
+    addBooking(newBooking);
   };
   console.log(".........", booking);
   return (
