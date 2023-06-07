@@ -1,24 +1,68 @@
 import "./App.scss";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Router";
-import { useEffect, useReducer } from "react";
-import { BookingContext } from "./contexts/BookingContext";
+import { useEffect, useReducer, useState } from "react";
+import {
+  BookingContext,
+  CurrentBookingContext,
+} from "./contexts/BookingContext";
 import { BookingDispatchContext } from "./contexts/BookingDispatchContext";
 import { BookingReducer } from "./reducers/BookingReducer";
+import { IBooking } from "./models/IBooking";
+import axios from "axios";
 
 function App() {
-  const [bookings, dispatch] = useReducer(BookingReducer, []);
-
-  useEffect(() => {
-    //Hämta datan här och lägga in i det vår bookings variabel via dispatch.
+  const [bookings, dispatch] = useReducer(BookingReducer, [{}]);
+  const [allBookings, setAllBookings] = useState<IBooking[]>([
+    {
+      _id: 0,
+      people: 0,
+      date: "",
+      sitting: "",
+      tables: [],
+      guest: {
+        name: "",
+        lastname: "",
+        email: "",
+        phone: 0,
+      },
+    },
+  ]);
+  const [currentBooking, setCurrentBooking] = useState<IBooking>({
+    _id: 0,
+    people: 0,
+    date: "",
+    sitting: "",
+    tables: [],
+    guest: {
+      name: "",
+      lastname: "",
+      email: "",
+      phone: 0,
+    },
   });
 
+  //detta ska göras i reducerdokumentet
+  useEffect(() => {
+    //hur lägger vi in datan i bookings i reducern?
+    axios
+      .get<IBooking[]>("http://localhost:4000/api/v1/booking")
+      .then((response) => {
+        setAllBookings(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(allBookings);
   return (
     <>
       <BookingContext.Provider value={bookings}>
-        <BookingDispatchContext.Provider value={dispatch}>
-          <RouterProvider router={router} />
-        </BookingDispatchContext.Provider>
+        <CurrentBookingContext.Provider value={currentBooking}>
+          <BookingDispatchContext.Provider value={dispatch}>
+            <RouterProvider router={router} />
+          </BookingDispatchContext.Provider>
+        </CurrentBookingContext.Provider>
       </BookingContext.Provider>
     </>
   );
