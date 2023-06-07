@@ -9,9 +9,25 @@ import {
 import { BookingDispatchContext } from "./contexts/BookingDispatchContext";
 import { BookingReducer } from "./reducers/BookingReducer";
 import { IBooking } from "./models/IBooking";
+import axios from "axios";
 
 function App() {
-  const [bookings, dispatch] = useReducer(BookingReducer, []);
+  const [bookings, dispatch] = useReducer(BookingReducer, [{}]);
+  const [allBookings, setAllBookings] = useState<IBooking[]>([
+    {
+      _id: 0,
+      people: 0,
+      date: "",
+      sitting: "",
+      tables: [],
+      guest: {
+        name: "",
+        lastname: "",
+        email: "",
+        phone: 0,
+      },
+    },
+  ]);
   const [currentBooking, setCurrentBooking] = useState<IBooking>({
     _id: 0,
     people: 0,
@@ -26,10 +42,19 @@ function App() {
     },
   });
 
+  //detta ska göras i reducerdokumentet
   useEffect(() => {
-    //Hämta datan här och lägga in i det vår bookings variabel via dispatch.
-  });
-
+    //hur lägger vi in datan i bookings i reducern?
+    axios
+      .get<IBooking[]>("http://localhost:4000/api/v1/booking")
+      .then((response) => {
+        setAllBookings(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(allBookings);
   return (
     <>
       <BookingContext.Provider value={bookings}>
