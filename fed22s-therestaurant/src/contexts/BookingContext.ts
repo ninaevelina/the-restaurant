@@ -10,9 +10,6 @@ export interface IBookingContext {
   updateForm: (guestInfo: IGuest) => void;
   updateDate: (chosenDate: any) => void;
 }
-export interface IBookingsContext {
-  bookings: IBooking[];
-}
 
 export const CurrentBookingContext = createContext<IBookingContext>({
   booking: {
@@ -20,7 +17,7 @@ export const CurrentBookingContext = createContext<IBookingContext>({
     people: 0,
     date: "",
     sitting: "",
-    tables: [],
+    tables: 0,
     guest: {
       name: "",
       lastname: "",
@@ -46,4 +43,4 @@ export const CurrentBookingContext = createContext<IBookingContext>({
   },
 });
 
-export const BookingsContext = createContext<IBookingsContext[]>([]);
+export const BookingsContext = createContext<IBooking[]>([]);

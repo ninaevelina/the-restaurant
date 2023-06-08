@@ -8,7 +8,6 @@ import { createNewBooking } from "../services/restaurantApi";
 import { GuestNumbers } from "./GuestNumbers";
 import { SittingOption } from "./SittingOption";
 
-//det här måste sedan läggas in i vårat bookingstate med info från sittningar och kalender.
 export const Form = () => {
   const { updateForm, addBooking, booking } = useContext(CurrentBookingContext);
   const [showSittingButton, setShowSittingButton] = useState(true); //ska vara false
@@ -32,7 +31,7 @@ export const Form = () => {
 
       updateForm({ ...newBooking, [name]: value });
     }
-    console.log(newBooking);
+
     if (e.target.name === "phone") {
       setNewBooking((prevBooking) => ({
         ...prevBooking,
@@ -44,12 +43,10 @@ export const Form = () => {
   };
 
   const handleSubmit = (e: FormEvent) => {
-    console.log(newBooking);
     e.preventDefault();
-    // console.log(newBooking);
     addBooking();
   };
-  //console.log(".........", booking);
+
   return (
     <>
       <div>
