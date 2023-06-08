@@ -6,15 +6,12 @@ import { IBooking } from "../models/IBooking";
 export const SittingOption = () => {
   // const [first, setFirst] = useState(true);
   // const [second, setSecond] = useState(false);
-  const { addBooking, booking } = useContext(CurrentBookingContext);
+  const { updateSeating } = useContext(CurrentBookingContext);
 
   const handleClickSitting = (e: React.MouseEvent, theSitting: string) => {
     e.preventDefault();
-    const newSitting = {
-      ...booking,
-      sitting: theSitting,
-    };
-    addBooking(newSitting);
+    updateSeating(theSitting);
+
     // console.log(newSitting);
   };
 

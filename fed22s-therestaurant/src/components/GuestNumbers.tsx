@@ -4,16 +4,12 @@ import { useContext } from "react";
 import { CurrentBookingContext } from "../contexts/BookingContext";
 
 export const GuestNumbers = () => {
-  const { addBooking, booking } = useContext(CurrentBookingContext);
+  const { updatePeople } = useContext(CurrentBookingContext);
 
   const handleClickPeople = (e: React.MouseEvent, people: number) => {
     e.preventDefault();
     console.log(people);
-    const newPeopleAmount = {
-      ...booking,
-      people: people,
-    };
-    addBooking(newPeopleAmount);
+    updatePeople(people);
   };
 
   return (

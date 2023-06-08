@@ -4,24 +4,20 @@ import styled from "styled-components";
 import { IGuest } from "../models/IGuest";
 import { FormStyled } from "./styled/FormStyled";
 import { CurrentBookingContext } from "../contexts/BookingContext";
+import { createNewBooking } from "../services/restaurantApi";
+import { GuestNumbers } from "./GuestNumbers";
+import { SittingOption } from "./SittingOption";
 
 //det här måste sedan läggas in i vårat bookingstate med info från sittningar och kalender.
 export const Form = () => {
-  const { addBooking } = useContext(CurrentBookingContext);
-  const { booking } = useContext(CurrentBookingContext);
+  const { updateForm, addBooking, booking } = useContext(CurrentBookingContext);
+  const [showSittingButton, setShowSittingButton] = useState(true); //ska vara false
 
-  const [newBooking, setNewBooking] = useState<IBooking>({
-    _id: 0,
-    people: 0,
-    date: "",
-    sitting: "",
-    tables: [],
-    guest: {
-      name: "",
-      lastname: "",
-      email: "",
-      phone: 0,
-    },
+  const [newBooking, setNewBooking] = useState<IGuest>({
+    name: "",
+    lastname: "",
+    email: "",
+    phone: 0,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,38 +27,40 @@ export const Form = () => {
     if (e.target.type === "text" || e.target.type === "email") {
       setNewBooking((prevBooking) => ({
         ...prevBooking,
-        guest: {
-          ...prevBooking.guest,
-          [name]: value,
-        },
+        [name]: value,
       }));
+
+      updateForm({ ...newBooking, [name]: value });
     }
+    console.log(newBooking);
     if (e.target.name === "phone") {
       setNewBooking((prevBooking) => ({
         ...prevBooking,
-        guest: {
-          ...prevBooking.guest,
-          [name]: value,
-        },
+        [name]: +value,
       }));
+
+      updateForm({ ...newBooking, [name]: +value });
     }
   };
 
   const handleSubmit = (e: FormEvent) => {
+    console.log(newBooking);
     e.preventDefault();
     // console.log(newBooking);
-    addBooking(newBooking);
+    addBooking();
   };
-  console.log(".........", booking);
+  //console.log(".........", booking);
   return (
     <>
       <div>
         <FormStyled onSubmit={handleSubmit}>
+          <GuestNumbers></GuestNumbers>
+          {showSittingButton && <SittingOption></SittingOption>}
           <input
             type="text"
             name="name"
             placeholder="Firstname"
-            value={newBooking.guest.name}
+            value={booking.guest.name}
             onChange={handleChange}
           ></input>
 
@@ -70,7 +68,7 @@ export const Form = () => {
             type="text"
             name="lastname"
             placeholder="Lastname"
-            value={newBooking.guest.lastname}
+            value={booking.guest.lastname}
             onChange={handleChange}
           ></input>
 
@@ -78,7 +76,7 @@ export const Form = () => {
             type="email"
             name="email"
             placeholder="Email"
-            value={newBooking.guest.email}
+            value={booking.guest.email}
             onChange={handleChange}
           ></input>
 
@@ -86,7 +84,7 @@ export const Form = () => {
             type="number"
             name="phone"
             placeholder="Phone"
-            value={newBooking.guest.phone}
+            value={booking.guest.phone}
             onChange={handleChange}
           ></input>
           <button>Confirm Booking</button>

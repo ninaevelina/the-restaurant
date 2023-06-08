@@ -12,7 +12,7 @@ export interface IBooking {
 
 export const bookingSchema = new Schema<IBooking>({
   people: { type: Number, required: true },
-  date: { type: String, required: true },
+  date: { type: String },
   tables: { type: [Number], required: true },
   sitting: { type: String, required: true },
   guest: { type: {}, required: true },

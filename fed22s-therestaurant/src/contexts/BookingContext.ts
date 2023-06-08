@@ -1,9 +1,16 @@
 import { createContext } from "react";
 import { IBooking } from "../models/IBooking";
+import { IGuest } from "../models/IGuest";
 
 export interface IBookingContext {
   booking: IBooking;
-  addBooking: (newBooking: IBooking) => void;
+  addBooking: () => void;
+  updatePeople: (numberOfGuest: number) => void;
+  updateSeating: (seatingTime: string) => void;
+  updateForm: (guestInfo: IGuest) => void;
+}
+export interface IBookingsContext {
+  bookings: IBooking[];
 }
 
 export const CurrentBookingContext = createContext<IBookingContext>({
@@ -21,7 +28,18 @@ export const CurrentBookingContext = createContext<IBookingContext>({
     },
   },
 
-  addBooking: (newBooking: IBooking) => {
+  addBooking: () => {
+    return;
+  },
+  updatePeople: (numberOfGuest: number) => {
+    return;
+  },
+  updateSeating: (seatingTime: string) => {
+    return;
+  },
+  updateForm: (guestInfo: IGuest) => {
     return;
   },
 });
+
+export const BookingsContext = createContext<IBookingsContext[]>([]);
