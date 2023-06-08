@@ -5,6 +5,6 @@ export interface IBooking {
   people: number;
   date: string;
   sitting: string;
-  tables: number[];
+  tables: number;
   guest: IGuest;
 }
