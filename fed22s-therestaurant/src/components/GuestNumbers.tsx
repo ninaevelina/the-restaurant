@@ -8,7 +8,7 @@ export const GuestNumbers = () => {
 
   const handleClickPeople = (e: React.MouseEvent, people: number) => {
     e.preventDefault();
-    console.log(people);
+
     updatePeople(people);
   };
 
