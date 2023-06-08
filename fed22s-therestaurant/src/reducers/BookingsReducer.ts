@@ -18,7 +18,7 @@ export const BookingsReducer = (bookings: IBooking[], action: IAction) => {
   switch (action.type) {
     case ActionType.GOTALLBOOKINGS: {
       console.log(action.payload);
-      return action.payload; // vi behöver returna vår payload (array av bookings som en string), gör om den till en array och sätta vårt state till den
+      return JSON.parse(action.payload); // vi behöver returna vår payload (array av bookings som en string), gör om den till en array och sätta vårt state till den
     }
     case ActionType.UPDATEBOOKING: {
       const updatedBooking = bookings.map((booking) => {
