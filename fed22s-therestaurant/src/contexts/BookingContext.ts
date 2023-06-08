@@ -9,6 +9,7 @@ export interface IBookingContext {
   updateSeating: (seatingTime: string) => void;
   updateForm: (guestInfo: IGuest) => void;
   updateDate: (chosenDate: any) => void;
+  updateTables: (tables: number) => void;
 }
 
 export const CurrentBookingContext = createContext<IBookingContext>({
@@ -39,6 +40,9 @@ export const CurrentBookingContext = createContext<IBookingContext>({
     return;
   },
   updateDate: (chosenData: any) => {
+    return;
+  },
+  updateTables: (tables: number) => {
     return;
   },
 });
