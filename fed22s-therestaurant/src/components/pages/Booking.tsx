@@ -18,7 +18,7 @@ export const Booking = () => {
       people: 0,
       date: "",
       sitting: "",
-      tables: [],
+      tables: 0,
       guest: {
         name: "",
         lastname: "",
@@ -45,13 +45,13 @@ export const Booking = () => {
   });
 
   currentBooking.addBooking = async () => {
-    console.log(currentBooking.booking);
-    try {
-      let result = await createNewBooking(currentBooking.booking);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+    if (currentBooking.booking.people > 6) {
+      setCurrentBooking({
+        ...currentBooking,
+        booking: { ...currentBooking.booking, tables: chosenDate },
+      });
     }
+    let result = await createNewBooking(currentBooking.booking);
   };
 
   currentBooking.updateDate = (chosenDate: any) =>
