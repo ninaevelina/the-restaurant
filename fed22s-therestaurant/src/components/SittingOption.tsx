@@ -1,40 +1,36 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SittingButton } from "./styled/SittingButton";
 import { CurrentBookingContext } from "../contexts/BookingContext";
 import { IBooking } from "../models/IBooking";
 
 export const SittingOption = () => {
-  const [first, setFirst] = useState(true);
-  const [second, setSecond] = useState(false);
-  const { addBooking } = useContext(CurrentBookingContext);
-  const { booking } = useContext(CurrentBookingContext);
-  const [newSitting, setNewSitting] = useState<IBooking>({
-    _id: 0,
-    people: 0,
-    date: "",
-    sitting: "",
-    tables: [],
-    guest: {
-      name: "",
-      lastname: "",
-      email: "",
-      phone: 0,
-    },
-  });
+  // const [first, setFirst] = useState(true);
+  // const [second, setSecond] = useState(false);
+  const { updateSeating } = useContext(CurrentBookingContext);
 
-  const handleClickFirst = (e: MouseEvent) => {
+  const handleClickSitting = (e: React.MouseEvent, theSitting: string) => {
     e.preventDefault();
-    setNewSitting({ ...newSitting, sitting: "17-19" });
-    console.log(newSitting);
-    console.log(booking);
+    updateSeating(theSitting);
+
+    // console.log(newSitting);
   };
-  const handleClickSecond = () => {
-    console.log(booking);
-  };
+
   return (
     <>
-      <SittingButton onClick={handleClickFirst}>17-19</SittingButton>
-      <SittingButton onClick={handleClickSecond}>19-21</SittingButton>
+      <SittingButton
+        onClick={(e) => {
+          handleClickSitting(e, "17-19");
+        }}
+      >
+        17-19
+      </SittingButton>
+      <SittingButton
+        onClick={(e) => {
+          handleClickSitting(e, "19-21");
+        }}
+      >
+        19-21
+      </SittingButton>
     </>
   );
 };

@@ -10,7 +10,7 @@ export enum ActionType {
   GOTALLBOOKINGS,
   UPDATEBOOKING,
   DELETEBOOKING,
-  CREATENEWBOOKING,
+  // CREATENEWBOOKING,
   //lägg till fler enums, deleted, updated(?) och kör en map på dessa
 }
 
@@ -46,10 +46,10 @@ export const BookingsReducer = (bookings: IBooking[], action: IAction) => {
         (booking) => booking._id.toString() !== action.payload
       );
     }
-    case ActionType.CREATENEWBOOKING: {
-      const newBooking = createNewBooking();
-      return [...bookings, newBooking];
-    }
+    // case ActionType.CREATENEWBOOKING: {
+    //   const newBooking = createNewBooking();
+    //   return [...bookings, newBooking];
+    // }
     // sista case med default för felhantering?
     default:
       break;

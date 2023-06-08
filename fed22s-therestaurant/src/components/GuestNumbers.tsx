@@ -1,20 +1,90 @@
 import { GuestNumbersStyled } from "./styled/GuestNumbersStyled";
 import "../scss/main.scss";
+import { useContext } from "react";
+import { CurrentBookingContext } from "../contexts/BookingContext";
 
 export const GuestNumbers = () => {
+  const { updatePeople } = useContext(CurrentBookingContext);
+
+  const handleClickPeople = (e: React.MouseEvent, people: number) => {
+    e.preventDefault();
+    console.log(people);
+    updatePeople(people);
+  };
+
   return (
     <>
       <div className="guestNumberWrapper">
-        <GuestNumbersStyled>1</GuestNumbersStyled>
-        <GuestNumbersStyled>2</GuestNumbersStyled>
-        <GuestNumbersStyled>3</GuestNumbersStyled>
-        <GuestNumbersStyled>4</GuestNumbersStyled>
-        <GuestNumbersStyled>5</GuestNumbersStyled>
-        <GuestNumbersStyled>6</GuestNumbersStyled>
-        <GuestNumbersStyled>7</GuestNumbersStyled>
-        <GuestNumbersStyled>8</GuestNumbersStyled>
-        <GuestNumbersStyled>9</GuestNumbersStyled>
-        <GuestNumbersStyled>10</GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 1);
+          }}
+        >
+          1
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 2);
+          }}
+        >
+          2
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 3);
+          }}
+        >
+          3
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 4);
+          }}
+        >
+          4
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 5);
+          }}
+        >
+          5
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 6);
+          }}
+        >
+          6
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 7);
+          }}
+        >
+          7
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 8);
+          }}
+        >
+          8
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 9);
+          }}
+        >
+          9
+        </GuestNumbersStyled>
+        <GuestNumbersStyled
+          onClick={(e) => {
+            handleClickPeople(e, 10);
+          }}
+        >
+          10
+        </GuestNumbersStyled>
       </div>
     </>
   );
