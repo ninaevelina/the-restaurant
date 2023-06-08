@@ -34,7 +34,7 @@ export const updateBooking = async (id: number, booking: IBooking) => {
 
 //DELETEß
 
-export const deleteBooking = async (id: number) => {
+export const deleteBooking = async (id: string) => {
   const response = await axios.delete<IBooking>(
     `http://localhost:4000/api/v1/booking/${id}`
   );
