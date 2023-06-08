@@ -57,6 +57,9 @@ function App() {
     updateForm: (guestInfo: IGuest) => {
       return;
     },
+    updateDate: (chosenData: any) => {
+      return;
+    },
   });
 
   currentBooking.addBooking = async () => {
@@ -69,7 +72,11 @@ function App() {
     }
   };
 
-  console.log(currentBooking);
+  currentBooking.updateDate = (chosenDate: any) =>
+    setCurrentBooking({
+      ...currentBooking,
+      booking: { ...currentBooking.booking, date: chosenDate },
+    });
 
   currentBooking.updatePeople = (numberOfGuest: number) => {
     setCurrentBooking({

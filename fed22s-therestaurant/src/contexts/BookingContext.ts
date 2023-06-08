@@ -8,6 +8,7 @@ export interface IBookingContext {
   updatePeople: (numberOfGuest: number) => void;
   updateSeating: (seatingTime: string) => void;
   updateForm: (guestInfo: IGuest) => void;
+  updateDate: (chosenDate: any) => void;
 }
 export interface IBookingsContext {
   bookings: IBooking[];
@@ -38,6 +39,9 @@ export const CurrentBookingContext = createContext<IBookingContext>({
     return;
   },
   updateForm: (guestInfo: IGuest) => {
+    return;
+  },
+  updateDate: (chosenData: any) => {
     return;
   },
 });
