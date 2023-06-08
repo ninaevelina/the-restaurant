@@ -1,7 +1,9 @@
+import { ShowAllBookingsAdmin } from "../ShowAllBookingsAdmin";
+
 export const Admin = () => {
   return (
     <>
-      <p>Admin</p>
+      <ShowAllBookingsAdmin></ShowAllBookingsAdmin>
     </>
   );
 };
