@@ -29,7 +29,7 @@ export const updateBooking = async (id: number, booking: IBooking) => {
     booking
   ); //skicka in i parametern istället!!
 
-  return response.data;
+  // return response.data;
 };
 
 //DELETEß
@@ -38,6 +38,4 @@ export const deleteBooking = async (id: number) => {
   const response = await axios.delete<IBooking>(
     `http://localhost:4000/api/v1/booking/${id}`
   );
-
-  return response.data;
 };

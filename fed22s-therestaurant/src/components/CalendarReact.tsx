@@ -7,9 +7,10 @@ export const CalendarReact = () => {
   const [value, onChange] = useState(new Date());
 
   const handleDateChange = (newValue: any) => {
-    console.log(newValue);
-    onChange(newValue);
-    updateDate(newValue);
+    const formattedDate = newValue.toISOString().split("T")[0];
+    console.log(formattedDate);
+    onChange(formattedDate);
+    updateDate(formattedDate);
   };
 
   return (
