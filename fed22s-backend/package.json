@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seedDb": "npx ts-node src/seedDb/seedDb.ts"
+    "seedDb": "npx ts-node src/seedDb/seedDb.ts",
+    "start": "npx ts-node app.ts"
   },
   "author": "",
   "license": "ISC",
