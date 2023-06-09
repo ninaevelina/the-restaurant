@@ -3,23 +3,37 @@ import { BookingsContext } from "../contexts/BookingContext";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { ActionType } from "../reducers/BookingsReducer";
 import { deleteBooking } from "../services/restaurantApi";
+import { ShowCreateNewBooking } from "./ShowCreateNewBooking";
 
 export const ShowAllBookingsAdmin = () => {
   //Hämta datan i contextet och loopa ut för varje html-tag
   const bookings = useContext(BookingsContext);
   const dispatch = useContext(BookingDispatchContext);
 
-  const [showUpdate, setShowUpdate] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const deleteCurrentBooking = (id: string) => {
     dispatch({ type: ActionType.DELETEBOOKING, payload: id });
   };
 
-  const showUpdatebooking = () => {
-    setShowUpdate(true);
+  // const showUpdatebooking = (id: string) => {
+  //   const currentId = bookings.map((booking) => {
+  //     if (booking._id.toString() === id) {
+  //       setShowUpdate(true);
+  //     }
+  //   });
+
+  //   console.log(currentId);
+
+  //   // if (currentId) {
+
+  //   // }
+  // };
+
+  const showCreateForm = () => {
+    setShowForm(true);
   };
 
-  console.log(showUpdate);
   const allBookings = bookings.map((b) => {
     return (
       <div key={b._id}>
@@ -29,6 +43,7 @@ export const ShowAllBookingsAdmin = () => {
         <p>Lastname{b.guest.lastname}</p>
         <p>Phone{b.guest.phone}</p>
         <p>email{b.guest.email}</p>
+
         <button
           onClick={() => {
             deleteCurrentBooking(b._id.toString()),
@@ -37,10 +52,22 @@ export const ShowAllBookingsAdmin = () => {
         >
           delete booking
         </button>
-        <button onClick={showUpdatebooking}>update booking</button>
+        {/* <button
+          onClick={() => {
+            showUpdatebooking(b._id.toString());
+          }}
+        >
+          update booking
+        </button> */}
       </div>
     );
   });
 
-  return <>{allBookings}</>;
+  return (
+    <>
+      <button onClick={showCreateForm}>create new booking</button>
+      {showForm && <ShowCreateNewBooking></ShowCreateNewBooking>}
+      <div>{allBookings}</div>
+    </>
+  );
 };

@@ -3,14 +3,14 @@ import { createNewBooking } from "../services/restaurantApi";
 
 export interface IAction {
   type: ActionType;
-  payload: string;
+  payload: any;
 }
 
 export enum ActionType {
   GOTALLBOOKINGS,
   UPDATEBOOKING,
   DELETEBOOKING,
-  // CREATENEWBOOKING,
+  CREATENEWBOOKING,
   //lägg till fler enums, deleted, updated(?) och kör en map på dessa
 }
 
@@ -20,36 +20,49 @@ export const BookingsReducer = (bookings: IBooking[], action: IAction) => {
       // console.log(action.payload);
       return JSON.parse(action.payload); // vi behöver returna vår payload (array av bookings som en string), gör om den till en array och sätta vårt state till den
     }
-    case ActionType.UPDATEBOOKING: {
-      const updatedBooking = bookings.map((booking) => {
-        if (booking._id.toString() === action.payload) {
-          return {
-            ...booking,
-            people: booking.people,
-            date: booking.date,
-            sitting: booking.sitting,
-            guest: booking.guest,
-            name: booking.guest.name,
-            lastname: booking.guest.lastname,
-            email: booking.guest.email,
-            phone: booking.guest.phone.toString(),
-          };
-          // return {...booking, _id: !booking._id};?
-        } else {
-          return booking;
-        }
-      });
-      return updatedBooking;
-    }
+    // case ActionType.UPDATEBOOKING: {
+    //   const updatedBooking = bookings.map((booking) => {
+    //     if (booking._id.toString() === action.payload) {
+    //       return {
+    //         ...booking,
+    //         people: booking.people,
+    //         date: booking.date,
+    //         sitting: booking.sitting,
+    //         guest: booking.guest,
+    //         name: booking.guest.name,
+    //         lastname: booking.guest.lastname,
+    //         email: booking.guest.email,
+    //         phone: booking.guest.phone.toString(),
+    //       };
+    //       // return {...booking, _id: !booking._id};?
+    //     } else {
+    //       return booking;
+    //     }
+    //   });
+    //   return updatedBooking;
+    // }
     case ActionType.DELETEBOOKING: {
       return bookings.filter(
         (booking) => booking._id.toString() !== action.payload
       );
     }
-    // case ActionType.CREATENEWBOOKING: {
-    //   const newBooking = createNewBooking();
-    //   return [...bookings, newBooking];
-    // }
+    case ActionType.CREATENEWBOOKING: {
+      const newBooking: IBooking = {
+        _id: action.payload._id,
+        people: action.payload.people,
+        date: action.payload.date,
+        sitting: action.payload.sitting,
+        tables: action.payload.tables,
+        guest: {
+          name: action.payload.name,
+          lastname: action.payload.lastname,
+          email: action.payload.email,
+          phone: action.payload.phone,
+        },
+      };
+      // const newBooking = createNewBooking();
+      return [...bookings, newBooking];
+    }
     // sista case med default för felhantering?
     default:
       break;
