@@ -85,21 +85,23 @@ export const ShowCreateNewBooking = () => {
   };
 
   const handleSubmitAdmin = (e: FormEvent) => {
-    e.preventDefault();
+    dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
   };
+
   return (
     <>
       <FormStyled onSubmit={handleSubmitAdmin}>
+        <label>Date</label>
         <input
           type="text"
           name="date"
-          placeholder="date"
+          placeholder="day, date, year - example: Sat, Jun 3, 2023"
           value={newBookingAdmin.date}
           onChange={handleChangeAdmin}
         ></input>
-        {newBookingAdmin.date}
 
+        <label>Guests</label>
         <input
           type="number"
           name="people"
@@ -107,8 +109,8 @@ export const ShowCreateNewBooking = () => {
           value={newBookingAdmin.people}
           onChange={handleChangeAdmin}
         ></input>
-        {newBookingAdmin.people}
 
+        <label>Sitting</label>
         <input
           type="text"
           name="sitting"
@@ -117,6 +119,7 @@ export const ShowCreateNewBooking = () => {
           onChange={handleChangeAdmin}
         ></input>
 
+        <label>Tables</label>
         <input
           type="number"
           name="tables"
@@ -125,6 +128,7 @@ export const ShowCreateNewBooking = () => {
           onChange={handleChangeAdmin}
         ></input>
 
+        <label>Firstname</label>
         <input
           type="text"
           name="name"
@@ -133,6 +137,7 @@ export const ShowCreateNewBooking = () => {
           onChange={handleChangeAdminGuest}
         ></input>
 
+        <label>Lastname</label>
         <input
           type="text"
           name="lastname"
@@ -141,6 +146,7 @@ export const ShowCreateNewBooking = () => {
           onChange={handleChangeAdminGuest}
         ></input>
 
+        <label>Email</label>
         <input
           type="email"
           name="email"
@@ -149,6 +155,7 @@ export const ShowCreateNewBooking = () => {
           onChange={handleChangeAdminGuest}
         ></input>
 
+        <label>Phone</label>
         <input
           type="number"
           name="phone"
