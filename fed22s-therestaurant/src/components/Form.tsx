@@ -51,8 +51,6 @@ export const Form = () => {
     <>
       <div>
         <FormStyled onSubmit={handleSubmit}>
-          <GuestNumbers></GuestNumbers>
-          {showSittingButton && <SittingOption></SittingOption>}
           <input
             type="text"
             name="name"
