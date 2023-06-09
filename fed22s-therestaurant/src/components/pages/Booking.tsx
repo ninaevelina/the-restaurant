@@ -7,10 +7,16 @@ import {
 } from "../../contexts/BookingContext";
 import { IGuest } from "../../models/IGuest";
 import { createNewBooking, updateBooking } from "../../services/restaurantApi";
+import { GuestNumbers } from "../GuestNumbers";
+import { SittingOption } from "../SittingOption";
 
 export const Booking = () => {
-  const [showForm, setShowForm] = useState(true); //ska vara false
+  const [showForm, setShowForm] = useState(false); //ska vara false
   const [showCalendar, setShowCalendar] = useState(true);
+  const [showSittingButton, setShowSittingButton] = useState(true);
+  const [bookingInfo, setBookingInfo] = useState(
+    "To make a reservation for 10+ people, please contact events@dirtytapas.com"
+  );
 
   const [currentBooking, setCurrentBooking] = useState<IBookingContext>({
     booking: {
@@ -58,6 +64,8 @@ export const Booking = () => {
       ...currentBooking,
       booking: { ...currentBooking.booking, sitting: seatingTime },
     });
+    setShowForm(true);
+    setBookingInfo("Please provide your booking details");
   };
   currentBooking.updateForm = (guestInfo: IGuest) => {
     setCurrentBooking({
@@ -94,12 +102,13 @@ export const Booking = () => {
     <>
       <p>Booking</p>
       <CurrentBookingContext.Provider value={currentBooking}>
-        {showCalendar && (
-          <div className="calendarWrapper">
-            <CalendarReact></CalendarReact>
-          </div>
-        )}
+        <div className="calendarWrapper">
+          <CalendarReact></CalendarReact>
+        </div>
 
+        <GuestNumbers></GuestNumbers>
+        <SittingOption></SittingOption>
+        <p>{bookingInfo}</p>
         {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
       blir show true */}
 
