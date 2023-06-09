@@ -6,7 +6,8 @@ import {
   IBookingContext,
 } from "../../contexts/BookingContext";
 import { IGuest } from "../../models/IGuest";
-import { createNewBooking } from "../../services/restaurantApi";
+import { createNewBooking, updateBooking } from "../../services/restaurantApi";
+import { IBooking } from "../../models/IBooking";
 
 export const Booking = () => {
   const [showForm, setShowForm] = useState(true); //ska vara false
@@ -42,16 +43,14 @@ export const Booking = () => {
     updateDate: (chosenData: any) => {
       return;
     },
+    updateTables: (tables: number) => {
+      return;
+    },
   });
 
   currentBooking.addBooking = async () => {
-    if (currentBooking.booking.people > 6) {
-      setCurrentBooking({
-        ...currentBooking,
-        booking: { ...currentBooking.booking, tables: chosenDate },
-      });
-    }
     let result = await createNewBooking(currentBooking.booking);
+    console.log(result);
   };
 
   currentBooking.updateDate = (chosenDate: any) =>
@@ -60,12 +59,12 @@ export const Booking = () => {
       booking: { ...currentBooking.booking, date: chosenDate },
     });
 
-  currentBooking.updatePeople = (numberOfGuest: number) => {
-    setCurrentBooking({
-      ...currentBooking,
-      booking: { ...currentBooking.booking, people: numberOfGuest },
-    });
-  };
+  // currentBooking.updatePeople = (numberOfGuest: number) => {
+  //   setCurrentBooking({
+  //     ...currentBooking,
+  //     booking: { ...currentBooking.booking, people: numberOfGuest },
+  //   });
+  // };
 
   currentBooking.updateSeating = (seatingTime: string) => {
     setCurrentBooking({
@@ -78,6 +77,20 @@ export const Booking = () => {
       ...currentBooking,
       booking: { ...currentBooking.booking, guest: guestInfo },
     });
+  };
+  currentBooking.updatePeople = (numberOfGuest: number) => {
+    setCurrentBooking({
+      ...currentBooking,
+      booking: {
+        ...currentBooking.booking,
+        people: numberOfGuest,
+        tables: amountOfTables(numberOfGuest),
+      },
+    });
+  };
+
+  const amountOfTables = (numberOfGuest: number) => {
+    return numberOfGuest > 6 ? 2 : 1;
   };
 
   return (
