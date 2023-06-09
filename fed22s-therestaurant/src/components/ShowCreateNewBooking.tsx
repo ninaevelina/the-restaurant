@@ -31,7 +31,7 @@ export const ShowCreateNewBooking = () => {
     const value = e.target.value;
     const name = e.target.name;
 
-    if (e.target.type === "text" || e.target.type === "email") {
+    if (e.target.type === "text") {
       setNewBookingAdmin((prevBooking) => ({
         ...prevBooking,
         [name]: value,
@@ -47,6 +47,34 @@ export const ShowCreateNewBooking = () => {
       setNewBookingAdmin((prevBooking) => ({
         ...prevBooking,
         [name]: +value,
+      }));
+
+      dispatch({
+        type: ActionType.CREATENEWBOOKING,
+        payload: { [name]: +value },
+      });
+    }
+  };
+
+  const handleChangeAdminGuest = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    if (e.target.type === "text" || e.target.type === "email") {
+      setNewBookingAdmin((prevBooking) => ({
+        ...prevBooking,
+        guest: { ...prevBooking.guest, [name]: value },
+      }));
+
+      dispatch({
+        type: ActionType.CREATENEWBOOKING,
+        payload: { [name]: value },
+      });
+    }
+
+    if (e.target.type === "number") {
+      setNewBookingAdmin((prevBooking) => ({
+        ...prevBooking,
+        guest: { ...prevBooking.guest, [name]: +value },
       }));
 
       dispatch({
@@ -74,7 +102,7 @@ export const ShowCreateNewBooking = () => {
 
         <input
           type="number"
-          name="guests"
+          name="people"
           placeholder="guests"
           value={newBookingAdmin.people}
           onChange={handleChangeAdmin}
@@ -83,10 +111,26 @@ export const ShowCreateNewBooking = () => {
 
         <input
           type="text"
+          name="sitting"
+          placeholder="sitting"
+          value={newBookingAdmin.sitting}
+          onChange={handleChangeAdmin}
+        ></input>
+
+        <input
+          type="number"
+          name="tables"
+          placeholder="sitting"
+          value={newBookingAdmin.tables}
+          onChange={handleChangeAdmin}
+        ></input>
+
+        <input
+          type="text"
           name="name"
           placeholder="Firstname"
           value={newBookingAdmin.guest.name}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
 
         <input
@@ -94,7 +138,7 @@ export const ShowCreateNewBooking = () => {
           name="lastname"
           placeholder="Lastname"
           value={newBookingAdmin.guest.lastname}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
 
         <input
@@ -102,7 +146,7 @@ export const ShowCreateNewBooking = () => {
           name="email"
           placeholder="Email"
           value={newBookingAdmin.guest.email}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
 
         <input
@@ -110,7 +154,7 @@ export const ShowCreateNewBooking = () => {
           name="phone"
           placeholder="Phone"
           value={newBookingAdmin.guest.phone}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
         <button>Confirm new booking</button>
       </FormStyled>
