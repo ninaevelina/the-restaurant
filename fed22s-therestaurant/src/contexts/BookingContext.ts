@@ -15,6 +15,7 @@ export interface IBookingContext {
 export interface IAllBookingsContext {
   bookings: IBooking[];
   getBookings: () => void;
+  fullyBooked: () => void;
 }
 
 export const CurrentBookingContext = createContext<IBookingContext>({
@@ -53,6 +54,11 @@ export const CurrentBookingContext = createContext<IBookingContext>({
 });
 
 export const BookingsContext = createContext<IAllBookingsContext>({
-  bookings: [],
-  getBookings: () => {},
+  bookings: [], //måste göra ett interface
+  getBookings: () => {
+    return;
+  },
+  fullyBooked: () => {
+    return;
+  },
 });
