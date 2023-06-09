@@ -1,22 +1,31 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CalendarReact } from "../CalendarReact";
 import { Form } from "../Form";
 import {
+  BookingsContext,
   CurrentBookingContext,
+  IAllBookingsContext,
   IBookingContext,
 } from "../../contexts/BookingContext";
 import { IGuest } from "../../models/IGuest";
-import { createNewBooking, updateBooking } from "../../services/restaurantApi";
+import {
+  createNewBooking,
+  getAllBookings,
+  updateBooking,
+} from "../../services/restaurantApi";
 import { GuestNumbers } from "../GuestNumbers";
 import { SittingOption } from "../SittingOption";
 
 export const Booking = () => {
   const [showForm, setShowForm] = useState(false); //ska vara false
-  const [showCalendar, setShowCalendar] = useState(true);
-  const [showSittingButton, setShowSittingButton] = useState(true);
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
+
+  const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
+    bookings: [],
+    getBookings: () => {},
+  }));
 
   const [currentBooking, setCurrentBooking] = useState<IBookingContext>({
     booking: {
@@ -52,6 +61,11 @@ export const Booking = () => {
       return;
     },
   });
+
+  allBookings.getBookings = async () => {
+    let allResults = await getAllBookings();
+    console.log(allResults);
+  };
 
   currentBooking.updateDate = (chosenDate: any) =>
     setCurrentBooking({
@@ -101,19 +115,21 @@ export const Booking = () => {
   return (
     <>
       <p>Booking</p>
-      <CurrentBookingContext.Provider value={currentBooking}>
-        <div className="calendarWrapper">
-          <CalendarReact></CalendarReact>
-        </div>
+      <BookingsContext.Provider value={allBookings}>
+        <CurrentBookingContext.Provider value={currentBooking}>
+          <div className="calendarWrapper">
+            <CalendarReact></CalendarReact>
+          </div>
 
-        <GuestNumbers></GuestNumbers>
-        <SittingOption></SittingOption>
-        <p>{bookingInfo}</p>
-        {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
+          <GuestNumbers></GuestNumbers>
+          <SittingOption></SittingOption>
+          <p>{bookingInfo}</p>
+          {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
       blir show true */}
 
-        {showForm && <Form></Form>}
-      </CurrentBookingContext.Provider>
+          {showForm && <Form></Form>}
+        </CurrentBookingContext.Provider>
+      </BookingsContext.Provider>
     </>
   );
 };
