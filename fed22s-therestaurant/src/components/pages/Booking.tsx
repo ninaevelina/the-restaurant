@@ -62,10 +62,19 @@ export const Booking = () => {
     },
   });
 
-  allBookings.getBookings = async () => {
-    let allResults = await getAllBookings();
-    console.log(allResults);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      let allResults = await getAllBookings();
+
+      setAllBookings((prevAllBookings) => ({
+        ...prevAllBookings,
+        bookings: allResults,
+      }));
+    };
+
+    fetchData();
+  }, []);
+  console.log(allBookings);
 
   currentBooking.updateDate = (chosenDate: any) =>
     setCurrentBooking({

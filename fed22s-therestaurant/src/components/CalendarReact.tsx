@@ -16,7 +16,6 @@ export const CalendarReact = () => {
 
   const handleDateChange = (newValue: any) => {
     const formattedDate = newValue.toISOString().split("T")[0];
-    console.log(formattedDate);
     onChange(formattedDate);
     updateDate(formattedDate);
   };

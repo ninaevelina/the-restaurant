@@ -53,6 +53,6 @@ export const CurrentBookingContext = createContext<IBookingContext>({
 });
 
 export const BookingsContext = createContext<IAllBookingsContext>({
-  bookings: [],
+  bookings: [], //måste göra ett interface
   getBookings: () => {},
 });
