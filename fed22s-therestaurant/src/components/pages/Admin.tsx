@@ -7,7 +7,6 @@ import { BookingDispatchContext } from "../../contexts/BookingDispatchContext";
 
 export const Admin = () => {
   const [bookings, dispatch] = useReducer(BookingsReducer, []);
-  console.log(bookings);
 
   useEffect(() => {
     const getData = async () => {
@@ -16,13 +15,10 @@ export const Admin = () => {
         type: ActionType.GOTALLBOOKINGS,
         payload: JSON.stringify(getAllDataFromApi),
       });
-      console.log(getAllDataFromApi);
     };
 
     getData();
   }, [dispatch]);
-
-  console.log(bookings);
 
   return (
     <>
