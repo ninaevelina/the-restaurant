@@ -18,13 +18,21 @@ import { SittingOption } from "../SittingOption";
 
 export const Booking = () => {
   const [showForm, setShowForm] = useState(false); //ska vara false
+  const [showGuest, setShowGuest] = useState(true);
+  const [showSeatingTime, setShowSeatingTime] = useState(true);
+  const [showFormAndPeople, setShowFormAndPeople] = useState(true);
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
 
   const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
     bookings: [],
-    getBookings: () => {},
+    getBookings: () => {
+      return;
+    },
+    fullyBooked: () => {
+      return;
+    },
   }));
 
   const [currentBooking, setCurrentBooking] = useState<IBookingContext>({
@@ -74,7 +82,12 @@ export const Booking = () => {
 
     fetchData();
   }, []);
-  console.log(allBookings);
+
+  allBookings.fullyBooked = () => {
+    console.log("NU ÄR DET FULLT");
+    console.log(allBookings.bookings);
+    setShowFormAndPeople(false);
+  };
 
   currentBooking.updateDate = (chosenDate: any) =>
     setCurrentBooking({
@@ -129,14 +142,31 @@ export const Booking = () => {
           <div className="calendarWrapper">
             <CalendarReact></CalendarReact>
           </div>
-
-          <GuestNumbers></GuestNumbers>
-          <SittingOption></SittingOption>
-          <p>{bookingInfo}</p>
-          {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
-      blir show true */}
-
-          {showForm && <Form></Form>}
+          {showFormAndPeople ? (
+            <div>
+              {showGuest && <GuestNumbers></GuestNumbers>}
+              {showSeatingTime && <SittingOption></SittingOption>}
+              <p>{bookingInfo}</p>
+              {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
+              blir show true */}
+              {showForm && <Form></Form>}
+            </div>
+          ) : (
+            <>
+              <h3>
+                Sorry we are fully booked on this date, please go back and try
+                another one!
+              </h3>
+              <button
+                onClick={() => {
+                  console.log("ojiji");
+                  setShowFormAndPeople(true);
+                }}
+              >
+                Go back
+              </button>
+            </>
+          )}
         </CurrentBookingContext.Provider>
       </BookingsContext.Provider>
     </>

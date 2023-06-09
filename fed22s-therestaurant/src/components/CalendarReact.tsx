@@ -7,9 +7,8 @@ import {
 
 export const CalendarReact = () => {
   const { updateDate } = useContext(CurrentBookingContext);
-  const { getBookings, bookings } = useContext(BookingsContext);
+  const { getBookings, fullyBooked, bookings } = useContext(BookingsContext);
   const [value, onChange] = useState(new Date());
-  const [test, setTest] = useState("testgrej");
   const [fullTables, setFullTables] = useState(0);
 
   useEffect(() => {
@@ -38,6 +37,7 @@ export const CalendarReact = () => {
         console.log("endast 6 platser kvar");
       } else if (tablesThatDay === 15) {
         console.log("fullt");
+        fullyBooked();
       }
       console.log(peopleThatDay);
       console.log(tablesThatDay);
@@ -63,7 +63,6 @@ export const CalendarReact = () => {
 
   return (
     <div>
-      <p>{test}</p>
       <Calendar onChange={handleDateChange} value={value} />
     </div>
   );
