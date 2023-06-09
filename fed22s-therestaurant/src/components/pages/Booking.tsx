@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CalendarReact } from "../CalendarReact";
 import { Form } from "../Form";
 import {
@@ -7,7 +7,6 @@ import {
 } from "../../contexts/BookingContext";
 import { IGuest } from "../../models/IGuest";
 import { createNewBooking, updateBooking } from "../../services/restaurantApi";
-import { IBooking } from "../../models/IBooking";
 
 export const Booking = () => {
   const [showForm, setShowForm] = useState(true); //ska vara false
@@ -48,23 +47,11 @@ export const Booking = () => {
     },
   });
 
-  currentBooking.addBooking = async () => {
-    let result = await createNewBooking(currentBooking.booking);
-    console.log(result);
-  };
-
   currentBooking.updateDate = (chosenDate: any) =>
     setCurrentBooking({
       ...currentBooking,
       booking: { ...currentBooking.booking, date: chosenDate },
     });
-
-  // currentBooking.updatePeople = (numberOfGuest: number) => {
-  //   setCurrentBooking({
-  //     ...currentBooking,
-  //     booking: { ...currentBooking.booking, people: numberOfGuest },
-  //   });
-  // };
 
   currentBooking.updateSeating = (seatingTime: string) => {
     setCurrentBooking({
@@ -76,6 +63,12 @@ export const Booking = () => {
     setCurrentBooking({
       ...currentBooking,
       booking: { ...currentBooking.booking, guest: guestInfo },
+    });
+  };
+  currentBooking.updateTables = (numberOfGuest: number) => {
+    setCurrentBooking({
+      ...currentBooking,
+      booking: { ...currentBooking.booking, tables: numberOfGuest },
     });
   };
   currentBooking.updatePeople = (numberOfGuest: number) => {
@@ -92,6 +85,10 @@ export const Booking = () => {
   const amountOfTables = (numberOfGuest: number) => {
     return numberOfGuest > 6 ? 2 : 1;
   };
+  currentBooking.addBooking = async () => {
+    let result = await createNewBooking(currentBooking.booking);
+    console.log(result);
+  };
 
   return (
     <>
@@ -102,6 +99,7 @@ export const Booking = () => {
             <CalendarReact></CalendarReact>
           </div>
         )}
+
         {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
       blir show true */}
 

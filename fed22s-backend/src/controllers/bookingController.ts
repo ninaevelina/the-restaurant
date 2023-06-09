@@ -3,10 +3,11 @@ import { Booking } from "../models/Booking";
 
 export const createBooking: RequestHandler = async (req, res, next) => {
   try {
-    const { people, date, sitting, guest } = req.body;
+    const { people, date, tables, sitting, guest } = req.body;
     const newBooking = await Booking.create({
       people: people,
       date: date,
+      tables: tables,
       sitting: sitting,
       guest: guest,
     });
