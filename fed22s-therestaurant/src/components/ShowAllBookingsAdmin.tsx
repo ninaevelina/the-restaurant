@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { BookingsContext } from "../contexts/BookingContext";
+import { BookingAdminContext } from "../contexts/BookingContext";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { ActionType } from "../reducers/BookingsReducer";
 import { deleteBooking } from "../services/restaurantApi";
@@ -7,7 +7,7 @@ import { ShowCreateNewBooking } from "./ShowCreateNewBooking";
 
 export const ShowAllBookingsAdmin = () => {
   //Hämta datan i contextet och loopa ut för varje html-tag
-  const bookings = useContext(BookingsContext);
+  const bookings = useContext(BookingAdminContext);
   const dispatch = useContext(BookingDispatchContext);
 
   const [showForm, setShowForm] = useState(false);

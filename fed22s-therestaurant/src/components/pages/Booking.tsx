@@ -15,12 +15,16 @@ import {
 } from "../../services/restaurantApi";
 import { GuestNumbers } from "../GuestNumbers";
 import { SittingOption } from "../SittingOption";
+import { Confirmation } from "../Confirmation";
+import { IBooking } from "../../models/IBooking";
 
 export const Booking = () => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [showForm, setShowForm] = useState(false); //ska vara false
   const [showGuest, setShowGuest] = useState(true);
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
+  const [lastTable, setLastTable] = useState(false);
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
@@ -33,11 +37,14 @@ export const Booking = () => {
     fullyBooked: () => {
       return;
     },
+    oneTableLeft: () => {
+      return;
+    },
   }));
 
   const [currentBooking, setCurrentBooking] = useState<IBookingContext>({
     booking: {
-      _id: 0,
+      _id: "",
       people: 0,
       date: "",
       sitting: "",
@@ -85,8 +92,12 @@ export const Booking = () => {
 
   allBookings.fullyBooked = () => {
     console.log("NU ÄR DET FULLT");
-    console.log(allBookings.bookings);
+    //console.log(allBookings.bookings);
     setShowFormAndPeople(false);
+  };
+
+  allBookings.oneTableLeft = () => {
+    setLastTable(true);
   };
 
   currentBooking.updateDate = (chosenDate: any) =>
@@ -131,7 +142,18 @@ export const Booking = () => {
   };
   currentBooking.addBooking = async () => {
     let result = await createNewBooking(currentBooking.booking);
+    // let resultString = JSON.stringify(result);
+    // console.log(result);
+    //console.log(resultString);
+    setCurrentBooking({
+      ...currentBooking,
+      booking: { ...currentBooking.booking, _id: result._id },
+    });
+    console.log(currentBooking);
     console.log(result);
+    setShowConfirmation(true);
+
+    //set default values
   };
 
   return (
@@ -144,7 +166,7 @@ export const Booking = () => {
           </div>
           {showFormAndPeople ? (
             <div>
-              {showGuest && <GuestNumbers></GuestNumbers>}
+              {showGuest && <GuestNumbers lastTable={lastTable}></GuestNumbers>}
               {showSeatingTime && <SittingOption></SittingOption>}
               <p>{bookingInfo}</p>
               {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
@@ -167,6 +189,7 @@ export const Booking = () => {
               </button>
             </>
           )}
+          {showConfirmation && <Confirmation></Confirmation>}
         </CurrentBookingContext.Provider>
       </BookingsContext.Provider>
     </>

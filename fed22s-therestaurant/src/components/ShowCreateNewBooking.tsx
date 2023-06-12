@@ -31,7 +31,7 @@ export const ShowCreateNewBooking = () => {
     const value = e.target.value;
     const name = e.target.name;
 
-    if (e.target.type === "text" || e.target.type === "email") {
+    if (e.target.type === "text") {
       setNewBookingAdmin((prevBooking) => ({
         ...prevBooking,
         [name]: value,
@@ -56,61 +56,112 @@ export const ShowCreateNewBooking = () => {
     }
   };
 
+  const handleChangeAdminGuest = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    if (e.target.type === "text" || e.target.type === "email") {
+      setNewBookingAdmin((prevBooking) => ({
+        ...prevBooking,
+        guest: { ...prevBooking.guest, [name]: value },
+      }));
+
+      dispatch({
+        type: ActionType.CREATENEWBOOKING,
+        payload: { [name]: value },
+      });
+    }
+
+    if (e.target.type === "number") {
+      setNewBookingAdmin((prevBooking) => ({
+        ...prevBooking,
+        guest: { ...prevBooking.guest, [name]: +value },
+      }));
+
+      dispatch({
+        type: ActionType.CREATENEWBOOKING,
+        payload: { [name]: +value },
+      });
+    }
+  };
+
   const handleSubmitAdmin = (e: FormEvent) => {
-    e.preventDefault();
+    dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
   };
+
   return (
     <>
       <FormStyled onSubmit={handleSubmitAdmin}>
+        <label>Date</label>
         <input
           type="text"
           name="date"
-          placeholder="date"
+          placeholder="day, date, year - example: Sat, Jun 3, 2023"
           value={newBookingAdmin.date}
           onChange={handleChangeAdmin}
         ></input>
-        {newBookingAdmin.date}
 
+        <label>Guests</label>
         <input
           type="number"
-          name="guests"
+          name="people"
           placeholder="guests"
           value={newBookingAdmin.people}
           onChange={handleChangeAdmin}
         ></input>
-        {newBookingAdmin.people}
 
+        <label>Sitting</label>
+        <input
+          type="text"
+          name="sitting"
+          placeholder="sitting"
+          value={newBookingAdmin.sitting}
+          onChange={handleChangeAdmin}
+        ></input>
+
+        <label>Tables</label>
+        <input
+          type="number"
+          name="tables"
+          placeholder="sitting"
+          value={newBookingAdmin.tables}
+          onChange={handleChangeAdmin}
+        ></input>
+
+        <label>Firstname</label>
         <input
           type="text"
           name="name"
           placeholder="Firstname"
           value={newBookingAdmin.guest.name}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
 
+        <label>Lastname</label>
         <input
           type="text"
           name="lastname"
           placeholder="Lastname"
           value={newBookingAdmin.guest.lastname}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
 
+        <label>Email</label>
         <input
           type="email"
           name="email"
           placeholder="Email"
           value={newBookingAdmin.guest.email}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
 
+        <label>Phone</label>
         <input
           type="number"
           name="phone"
           placeholder="Phone"
           value={newBookingAdmin.guest.phone}
-          onChange={handleChangeAdmin}
+          onChange={handleChangeAdminGuest}
         ></input>
         <button>Confirm new booking</button>
       </FormStyled>
