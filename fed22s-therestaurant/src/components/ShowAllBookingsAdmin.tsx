@@ -15,6 +15,7 @@ export const ShowAllBookingsAdmin = () => {
   const [showForm, setShowForm] = useState(false);
   const [showSortData, setShowSortData] = useState<IBooking[]>([]);
   const [value, onChange] = useState(new Date());
+  const [ShowBookingDate, setShowBookingDate] = useState<IBooking[]>([]);
 
   const deleteCurrentBooking = (id: string) => {
     dispatch({ type: ActionType.DELETEBOOKING, payload: id });
@@ -126,15 +127,25 @@ export const ShowAllBookingsAdmin = () => {
     );
   });
 
-  // const handleSortChange = () => {
+  const handleSortChange = (newValue: any) => {
+    const formattedDate = newValue.toLocaleDateString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    //bara datumet jag klickade på
+    const matchedBooking = bookings.filter((b) => formattedDate === b.date);
 
-  //   const formattedDate = newValue.toLocaleDateString("en-US", {
-  //     weekday: "short",
-  //     year: "numeric",
-  //     month: "short",
-  //     day: "numeric",
-  //   });
-  // };
+    console.log(matchedBooking);
+
+    const sortDataDate = [...matchedBooking].sort((a, b) =>
+      a.date < b.date ? -1 : 1
+    );
+
+    onChange(formattedDate);
+    setShowSortData(sortDataDate);
+  };
 
   return (
     <>
@@ -145,6 +156,7 @@ export const ShowAllBookingsAdmin = () => {
       {showForm && <ShowCreateNewBooking></ShowCreateNewBooking>}
       {/* <div>{allBookings}</div> */}
       <div>{data}</div>
+      {/* <div>{ShowBookingDate}</div> */}
     </>
   );
 };
