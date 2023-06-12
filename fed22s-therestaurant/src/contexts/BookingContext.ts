@@ -16,11 +16,12 @@ export interface IAllBookingsContext {
   bookings: IBooking[];
   getBookings: () => void;
   fullyBooked: () => void;
+  oneTableLeft: () => void;
 }
 
 export const CurrentBookingContext = createContext<IBookingContext>({
   booking: {
-    _id: 0,
+    _id: "",
     people: 0,
     date: "",
     sitting: "",
@@ -61,4 +62,9 @@ export const BookingsContext = createContext<IAllBookingsContext>({
   fullyBooked: () => {
     return;
   },
+  oneTableLeft: () => {
+    return;
+  },
 });
+
+export const BookingAdminContext = createContext<IBooking[]>([]);
