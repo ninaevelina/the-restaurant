@@ -85,6 +85,7 @@ export const ShowCreateNewBooking = () => {
   };
 
   const handleSubmitAdmin = (e: FormEvent) => {
+    e.preventDefault();
     dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
   };
