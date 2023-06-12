@@ -24,7 +24,7 @@ export const Booking = () => {
   const [showGuest, setShowGuest] = useState(true);
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
-  const [lastTable, setLastTable] = useState(false);
+  const [unAvailableGuestButton, setUnavailableGuestButton] = useState(".");
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
@@ -37,7 +37,7 @@ export const Booking = () => {
     fullyBooked: () => {
       return;
     },
-    oneTableLeft: () => {
+    oneTableLeft: (showOrHideGuest: string) => {
       return;
     },
   }));
@@ -96,8 +96,8 @@ export const Booking = () => {
     setShowFormAndPeople(false);
   };
 
-  allBookings.oneTableLeft = () => {
-    setLastTable(true);
+  allBookings.oneTableLeft = (showOrHideGuest: string) => {
+    setUnavailableGuestButton(showOrHideGuest);
   };
 
   currentBooking.updateDate = (chosenDate: any) =>
@@ -166,7 +166,11 @@ export const Booking = () => {
           </div>
           {showFormAndPeople ? (
             <div>
-              {showGuest && <GuestNumbers lastTable={lastTable}></GuestNumbers>}
+              {showGuest && (
+                <GuestNumbers
+                  disableButton={unAvailableGuestButton}
+                ></GuestNumbers>
+              )}
               {showSeatingTime && <SittingOption></SittingOption>}
               <p>{bookingInfo}</p>
               {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
@@ -177,11 +181,10 @@ export const Booking = () => {
             <>
               <h3>
                 Sorry we are fully booked on this date, please go back and try
-                another one!
+                another day!
               </h3>
               <button
                 onClick={() => {
-                  console.log("ojiji");
                   setShowFormAndPeople(true);
                 }}
               >
