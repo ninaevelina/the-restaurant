@@ -1,10 +1,19 @@
 import { GuestNumbersStyled } from "./styled/GuestNumbersStyled";
 import "../scss/main.scss";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CurrentBookingContext } from "../contexts/BookingContext";
 
-export const GuestNumbers = () => {
+interface lastTableProps {
+  lastTable: boolean;
+}
+
+export const GuestNumbers = ({ lastTable }: lastTableProps) => {
   const { updatePeople } = useContext(CurrentBookingContext);
+  const [unAvailableNum, setUnavailableNum] = useState(true);
+
+  //console.log(lastTable); //fortsätt här
+  if (lastTable) {
+  }
 
   const handleClickPeople = (e: React.MouseEvent, people: number) => {
     e.preventDefault();
