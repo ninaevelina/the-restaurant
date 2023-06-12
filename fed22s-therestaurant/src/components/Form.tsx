@@ -7,8 +7,8 @@ import { TermsAndConds } from "./TermsAndCond";
 
 export const Form = () => {
   const { updateForm, addBooking, booking } = useContext(CurrentBookingContext);
-  const [showTerms, setShowTerms] = useState(true);
-  const [agreed, setAgreed] = useState(true);
+  // const [showTerms, setShowTerms] = useState(true);
+  // const [agreed, setAgreed] = useState(false);
 
   const [newBooking, setNewBooking] = useState<IGuest>({
     name: "",
@@ -39,6 +39,9 @@ export const Form = () => {
       updateForm({ ...newBooking, [name]: +value });
     }
   };
+  // const handlCheckBoxChange = (termsAgreed: boolean) => {
+  //   setAgreed(termsAgreed);
+  // };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -77,7 +80,9 @@ export const Form = () => {
             value={booking.guest.phone}
             onChange={handleChange}
           ></input>
-          {showTerms && <TermsAndConds></TermsAndConds>}
+
+          <TermsAndConds></TermsAndConds>
+
           <button>Confirm Booking</button>
         </FormStyled>
       </div>

@@ -3,7 +3,7 @@ import { TermsAndCondsStyled } from "./styled/TermsAndCondStyled";
 export const TermsAndConds = () => {
   return (
     <TermsAndCondsStyled>
-      <input type="checkbox" />
+      <input type="checkbox" required />
       <p>
         I consent to the collection, processing, and storage of my personal data
         in accordance with the General Data Protection Regulation (GDPR) and the
