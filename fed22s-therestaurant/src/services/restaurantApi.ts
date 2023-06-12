@@ -13,12 +13,16 @@ export const getAllBookings = async () => {
 
 //CREATE
 
-export const createNewBooking = async (booking: IBooking) => {
+export const createNewBooking = async (
+  booking: IBooking
+): Promise<IBooking> => {
   console.log(booking);
   const response = await axios.post<IBooking>(
     "http://localhost:4000/api/v1/booking",
     booking
   );
+  console.log(response.data);
+  return response.data;
 };
 
 //PUT

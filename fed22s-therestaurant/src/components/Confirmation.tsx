@@ -1,34 +1,62 @@
+import { useState } from "react";
 import { useContext } from "react";
+import {
+  BookingsContext,
+  CurrentBookingContext,
+} from "../contexts/BookingContext";
 import { IBooking } from "../models/IBooking";
-import { BookingContext } from "../contexts/BookingContext";
+import { StyledHeading } from "./styled/Headings";
+import { Wrapper } from "./styled/Wrapper";
+import { ActionType } from "../reducers/BookingsReducer";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
-import { StyledHeading, StyledHeading2 } from "./styled/Headings";
-import { ActionType } from "../reducers/BookingReducer";
+import { deleteBooking } from "../services/restaurantApi";
 
-interface IBookingProps {
-  booking: IBooking;
-}
+export const Confirmation = () => {
+  const [showConfirmation, setShowConfirmation] = useState(true);
+  const { booking } = useContext(CurrentBookingContext);
+  const dispatch = useContext(BookingDispatchContext);
+  //state to show "thank you-msg" when handleClick-fn is run
 
-export const Confirmation = ({ booking }: IBookingProps) => {
-  const dispatch = useContext(BookingContext); // change to currentbookingcontext
+  //const { current}
+  // const { bookings, getBookings } = useContext(BookingsContext);
+
+  //getBookings()
+
+  const handleClick = () => {
+    // dispatch({ type: ActionType.DELETEBOOKING, payload: booking._id });
+    deleteBooking(booking._id);
+    console.log("log");
+    setShowConfirmation(false);
+  };
 
   return (
-    // draft
     <>
-      <StyledHeading>Thank you {booking.guest.name}</StyledHeading>
-      <StyledHeading2>Details:</StyledHeading2>
-      <p>{booking.date}</p>
-      <p>{booking.sitting}</p>
-      <p>{booking.people}</p>
-      <button
-        onClick={() => {
-          dispatch({
-            /* type(add to actiontype in reducer) + payload */
-          });
-        }}
-      >
-        Cancel
-      </button>
+      {showConfirmation && (
+        <div>
+          <h2>Thank you {booking.guest.name}!</h2>
+
+          <strong>Dirty Tapas</strong>
+          <p>{booking.people} guests</p>
+          <p>
+            {booking.date} {booking.sitting}
+          </p>
+
+          <div>
+            <strong>Booking details</strong>
+            <p>Booking Reference</p>
+            <p># {booking._id}</p>
+          </div>
+          <div>
+            <strong>Guest details</strong>
+            <p>
+              {booking.guest.name} {booking.guest.lastname}
+            </p>
+            <p>{booking.guest.email}</p>
+            <p>{booking.guest.phone}</p>
+          </div>
+          <button onClick={handleClick}>Delete</button>
+        </div>
+      )}
     </>
   );
 };
