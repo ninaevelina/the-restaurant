@@ -92,7 +92,7 @@ export const Booking = () => {
 
   allBookings.fullyBooked = () => {
     console.log("NU ÄR DET FULLT");
-    console.log(allBookings.bookings);
+    //console.log(allBookings.bookings);
     setShowFormAndPeople(false);
   };
 
