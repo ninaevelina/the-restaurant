@@ -1,19 +1,19 @@
 import { GuestNumbersStyled } from "./styled/GuestNumbersStyled";
 import "../scss/main.scss";
-import { useContext, useState } from "react";
-import { CurrentBookingContext } from "../contexts/BookingContext";
+import { useContext, useEffect, useState } from "react";
+import {
+  BookingsContext,
+  CurrentBookingContext,
+} from "../contexts/BookingContext";
 
-interface lastTableProps {
-  lastTable: boolean;
+interface unAvailableGuestButtonProps {
+  disableButton: string;
 }
 
-export const GuestNumbers = ({ lastTable }: lastTableProps) => {
+export const GuestNumbers = ({
+  disableButton,
+}: unAvailableGuestButtonProps) => {
   const { updatePeople } = useContext(CurrentBookingContext);
-  const [unAvailableNum, setUnavailableNum] = useState(true);
-
-  //console.log(lastTable); //fortsätt här
-  if (lastTable) {
-  }
 
   const handleClickPeople = (e: React.MouseEvent, people: number) => {
     e.preventDefault();
@@ -24,76 +24,28 @@ export const GuestNumbers = ({ lastTable }: lastTableProps) => {
   return (
     <>
       <div className="guestNumberWrapper">
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 1);
-          }}
-        >
-          1
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 2);
-          }}
-        >
-          2
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 3);
-          }}
-        >
-          3
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 4);
-          }}
-        >
-          4
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 5);
-          }}
-        >
-          5
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 6);
-          }}
-        >
-          6
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 7);
-          }}
-        >
-          7
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 8);
-          }}
-        >
-          8
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 9);
-          }}
-        >
-          9
-        </GuestNumbersStyled>
-        <GuestNumbersStyled
-          onClick={(e) => {
-            handleClickPeople(e, 10);
-          }}
-        >
-          10
-        </GuestNumbersStyled>
+        {[1, 2, 3, 4, 5, 6].map((num) => (
+          <GuestNumbersStyled
+            key={num}
+            onClick={(e) => {
+              handleClickPeople(e, num);
+            }}
+            available="seatingOptions"
+          >
+            {num}
+          </GuestNumbersStyled>
+        ))}
+        {[7, 8, 9, 10].map((num) => (
+          <GuestNumbersStyled
+            key={num}
+            onClick={(e) => {
+              handleClickPeople(e, num);
+            }}
+            available={disableButton}
+          >
+            {num}
+          </GuestNumbersStyled>
+        ))}
       </div>
     </>
   );

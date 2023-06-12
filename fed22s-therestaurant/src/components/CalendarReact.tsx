@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import {
   BookingsContext,
@@ -10,11 +10,14 @@ export const CalendarReact = () => {
   const { getBookings, fullyBooked, oneTableLeft, bookings } =
     useContext(BookingsContext);
   const [value, onChange] = useState(new Date());
-  const [fullTables, setFullTables] = useState(0);
 
   useEffect(() => {
     getBookings();
-  });
+  }, []);
+
+  useEffect(() => {
+    oneTableLeft("seatingOptions");
+  }, [value]);
 
   const handleDateChange = (newValue: any) => {
     const formattedDate = newValue.toLocaleDateString("en-US", {
@@ -29,39 +32,21 @@ export const CalendarReact = () => {
     let peopleThatDay = 0;
     let tablesThatDay = 0;
     matchedBooking.map((chosenBooking) => {
-      console.log(chosenBooking.tables);
       peopleThatDay += chosenBooking.people;
       if (peopleThatDay === 90) {
         console.log("fullt med människor");
       }
-      console.log(matchedBooking);
-      console.log(peopleThatDay);
 
       tablesThatDay += chosenBooking.tables;
       console.log(tablesThatDay);
       if (tablesThatDay === 14) {
         console.log("endast 6 platser kvar");
-        // oneTableLeft();
+        oneTableLeft("disableSeatingOption");
       } else if (tablesThatDay === 15) {
         fullyBooked();
         console.log("fullt");
       }
     });
-    //fungerar inte längre i funktionenm
-
-    // bookings.map((b) => {
-    //   if (formattedDate === b.date) {
-    //     console.log(formattedDate + b.date + " ----> MATCHAR ");
-    //     if (b.tables === 2) {
-    //       setFullTables(fullTables + 2);
-    //       console.log(fullTables);
-    //     } else {
-    //       setFullTables(fullTables + 1);
-    //       console.log(fullTables);
-    //     }
-    //   }
-    //   return fullTables;
-    // });
 
     onChange(formattedDate);
     updateDate(formattedDate);
