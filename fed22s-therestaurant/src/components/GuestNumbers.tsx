@@ -7,11 +7,11 @@ import {
 } from "../contexts/BookingContext";
 
 interface unAvailableGuestButtonProps {
-  disableButton: string;
+  showOrHideNumbers: string;
 }
 
 export const GuestNumbers = ({
-  disableButton,
+  showOrHideNumbers,
 }: unAvailableGuestButtonProps) => {
   const { updatePeople } = useContext(CurrentBookingContext);
 
@@ -35,17 +35,18 @@ export const GuestNumbers = ({
             {num}
           </GuestNumbersStyled>
         ))}
-        {[7, 8, 9, 10].map((num) => (
-          <GuestNumbersStyled
-            key={num}
-            onClick={(e) => {
-              handleClickPeople(e, num);
-            }}
-            available={disableButton}
-          >
-            {num}
-          </GuestNumbersStyled>
-        ))}
+        {showOrHideNumbers !== "disableSeatingOption" &&
+          [7, 8, 9, 10].map((num) => (
+            <GuestNumbersStyled
+              key={num}
+              onClick={(e) => {
+                handleClickPeople(e, num);
+              }}
+              available={showOrHideNumbers}
+            >
+              {num}
+            </GuestNumbersStyled>
+          ))}
       </div>
     </>
   );
