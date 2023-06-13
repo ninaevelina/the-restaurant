@@ -9,8 +9,13 @@ import { Value } from "react-calendar/dist/cjs/shared/types";
 
 export const CalendarReact = () => {
   const { updateDate, booking } = useContext(CurrentBookingContext);
-  const { getBookings, fullyBooked, oneTableLeft, bookings } =
-    useContext(BookingsContext);
+  const {
+    getBookings,
+    fullyBooked,
+    oneTableLeft,
+    disableSittingOption,
+    bookings,
+  } = useContext(BookingsContext);
   const [value, onChange] = useState("");
   const [seatingTime, setSeatingTime] = useState("");
 
@@ -33,42 +38,52 @@ export const CalendarReact = () => {
     let tablesThatDay = 0;
 
     if (matchedBooking.length === 0) {
-      oneTableLeft("seatingOptions");
+      oneTableLeft("showNumbers");
+      disableSittingOption("showSeating", "");
     } else {
       matchedBooking.map((chosenBooking) => {
         let time = "";
         chosenBooking.sitting === "17-19" ? (time = "17-19") : (time = "19-21");
-
+        tablesThatDay += chosenBooking.tables;
+        peopleThatDay += chosenBooking.people;
         //console.log(chosenBooking);
 
-        // if (chosenBooking.sitting === "17-19" && "19-21") {
-        if (chosenBooking.tables === 30) {
-          console.log("helt fullbokat");
+        if (chosenBooking.sitting) {
+          if (tablesThatDay === 30) {
+            console.log("helt fullbokat");
+
+            fullyBooked();
+            // }
+          }
         }
-        //  }
-        // First sitting
+        //  First sitting
         if (chosenBooking.sitting === time) {
+          console.log("hej");
           // If 90 guests = FULL
-          peopleThatDay += chosenBooking.people;
+
           if (peopleThatDay === 90) {
             console.log("fullt med människor");
           }
           // If 14 tables are booked = only 6 seats left
           // If 15 tables are booked = FULL
 
-          tablesThatDay += chosenBooking.tables;
           console.log(peopleThatDay, tablesThatDay);
 
           if (tablesThatDay === 14) {
             console.log("endast 6 platser kvar");
-            oneTableLeft("disableSeatingOption");
+            oneTableLeft("disableNumbers");
           } else {
-            oneTableLeft("seatingOptions");
+            oneTableLeft("showNumbers");
           }
 
           if (tablesThatDay === 15) {
-            fullyBooked();
+            //fullyBooked();
+            console.log(time);
+            disableSittingOption(time, "disableShowSeating");
           }
+          //  else {
+          //   disableSittingOption(time, "showSeating");
+          // }
         }
       });
     }

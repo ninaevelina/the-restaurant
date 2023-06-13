@@ -30,12 +30,12 @@ export const GuestNumbers = ({
             onClick={(e) => {
               handleClickPeople(e, num);
             }}
-            available="seatingOptions"
+            available="showNumbers"
           >
             {num}
           </GuestNumbersStyled>
         ))}
-        {showOrHideNumbers !== "disableSeatingOption" &&
+        {showOrHideNumbers !== "disableNumbers" &&
           [7, 8, 9, 10].map((num) => (
             <GuestNumbersStyled
               key={num}

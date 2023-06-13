@@ -26,7 +26,9 @@ export const Booking = () => {
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
   const [unAvailableGuestButton, setUnavailableGuestButton] =
-    useState("seatingOptions");
+    useState("showNumbers");
+  const [disableSittingStyle, setDisableSittingStyle] = useState("showSeating");
+  const [disableSittingOption, setDisableSittingOption] = useState("");
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
@@ -40,6 +42,9 @@ export const Booking = () => {
       return;
     },
     oneTableLeft: (showOrHideGuest: string) => {
+      return;
+    },
+    disableSittingOption: (showOrHideTime: string, disable: string) => {
       return;
     },
   }));
@@ -100,6 +105,14 @@ export const Booking = () => {
     setUnavailableGuestButton(showOrHideNumbers);
   };
 
+  allBookings.disableSittingOption = (
+    showOrHideTime: string,
+    disable: string
+  ) => {
+    setDisableSittingOption(showOrHideTime); //time
+    setDisableSittingStyle(disable);
+  };
+
   currentBooking.updateDate = (chosenDate: string) =>
     setCurrentBooking({
       ...currentBooking,
@@ -152,7 +165,7 @@ export const Booking = () => {
   };
   const handleBackClick = () => {
     setShowFormAndPeople(true);
-    allBookings.oneTableLeft("seatingOptions");
+    allBookings.oneTableLeft("showNumbers");
   };
 
   console.log(unAvailableGuestButton);
@@ -167,7 +180,12 @@ export const Booking = () => {
           </div>
           {showFormAndPeople ? (
             <div>
-              {showSeatingTime && <SittingOption></SittingOption>}
+              {showSeatingTime && (
+                <SittingOption
+                  showOrHideTime={disableSittingOption}
+                  changeVisability={disableSittingStyle}
+                ></SittingOption>
+              )}
               {showGuest && (
                 <GuestNumbers
                   showOrHideNumbers={unAvailableGuestButton}
