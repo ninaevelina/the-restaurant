@@ -17,7 +17,8 @@ export const FormStyled = styled.form`
   }
 
   button {
-    margin-top: 10px;
+    margin-top: -17px;
+    margin-bottom: 10px;
     border: 1px solid black;
   }
 `;
