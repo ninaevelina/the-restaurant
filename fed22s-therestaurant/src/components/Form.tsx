@@ -1,14 +1,25 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState, useEffect } from "react";
 
 import { IGuest } from "../models/IGuest";
 import { FormStyled } from "./styled/FormStyled";
 import { CurrentBookingContext } from "../contexts/BookingContext";
 import { TermsAndConds } from "./TermsAndCond";
+import { IFormError } from "../models/IFormError";
 
 export const Form = () => {
   const { updateForm, addBooking, booking } = useContext(CurrentBookingContext);
   // const [showTerms, setShowTerms] = useState(true);
   // const [agreed, setAgreed] = useState(false);
+
+  const [errors, setErrors] = useState<IFormError>({
+    inputRequired: false,
+    inputRequiredMessage: "",
+  });
+
+  const [showFirstname, setShowFirstname] = useState(false);
+  const [showLastname, setShowLastname] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
 
   const [newBooking, setNewBooking] = useState<IGuest>({
     name: "",
@@ -16,6 +27,13 @@ export const Form = () => {
     email: "",
     phone: 0,
   });
+
+  useEffect(() => {
+    validateFirstname();
+    validateLastname();
+    validateEmail();
+    validatePhone();
+  }, [newBooking]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -48,6 +66,65 @@ export const Form = () => {
     addBooking();
   };
 
+  const validateFirstname = (): boolean => {
+    if (newBooking.name === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowFirstname(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowFirstname(false);
+    }
+    return false;
+  };
+
+  const validateLastname = (): boolean => {
+    if (newBooking.lastname === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowLastname(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowLastname(false);
+    }
+    return false;
+  };
+  const validateEmail = (): boolean => {
+    if (newBooking.email === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowEmail(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowEmail(false);
+    }
+    return false;
+  };
+
+  const validatePhone = (): boolean => {
+    if (newBooking.phone === 0) {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowPhone(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowPhone(false);
+    }
+    return false;
+  };
+
   return (
     <>
       <div>
@@ -58,31 +135,45 @@ export const Form = () => {
             placeholder="Firstname"
             value={booking.guest.name}
             onChange={handleChange}
+            required
           ></input>
+          {showFirstname && errors.inputRequired && (
+            <div className="error">{errors.inputRequiredMessage}</div>
+          )}
           <input
             type="text"
             name="lastname"
             placeholder="Lastname"
             value={booking.guest.lastname}
             onChange={handleChange}
-          ></input>
+            required
+          ></input>{" "}
+          {showLastname && errors.inputRequired && (
+            <div className="error">{errors.inputRequiredMessage}</div>
+          )}
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={booking.guest.email}
             onChange={handleChange}
+            required
           ></input>
+          {showEmail && errors.inputRequired && (
+            <div className="error">{errors.inputRequiredMessage}</div>
+          )}
           <input
             type="number"
             name="phone"
             placeholder="Phone"
             value={booking.guest.phone}
             onChange={handleChange}
+            required
           ></input>
-
+          {showPhone && errors.inputRequired && (
+            <div className="error">{errors.inputRequiredMessage}</div>
+          )}
           <TermsAndConds></TermsAndConds>
-
           <button>Confirm Booking</button>
         </FormStyled>
       </div>

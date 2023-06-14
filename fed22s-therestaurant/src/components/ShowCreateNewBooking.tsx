@@ -1,4 +1,4 @@
-import { useContext, useState, ChangeEvent, FormEvent } from "react";
+import { useContext, useState, ChangeEvent, FormEvent, useEffect } from "react";
 import {
   BookingsContext,
   CurrentBookingContext,
@@ -9,9 +9,24 @@ import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { IBooking } from "../models/IBooking";
 import { ActionType } from "../reducers/BookingsReducer";
 import { createNewBooking } from "../services/restaurantApi";
+import { IFormError } from "../models/IFormError";
 
 export const ShowCreateNewBooking = () => {
   const dispatch = useContext(BookingDispatchContext);
+
+  const [errors, setErrors] = useState<IFormError>({
+    inputRequired: false,
+    inputRequiredMessage: "",
+  });
+
+  const [showDate, setShowDate] = useState(false);
+  const [showGuest, setShowGuest] = useState(false);
+  const [showSitting, setShowSitting] = useState(false);
+  const [showTables, setShowTables] = useState(false);
+  const [showFirstname, setShowFirstname] = useState(false);
+  const [showLastname, setShowLastname] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
 
   const [newBookingAdmin, setNewBookingAdmin] = useState<IBooking>({
     _id: "",
@@ -26,6 +41,17 @@ export const ShowCreateNewBooking = () => {
       phone: 0,
     },
   });
+
+  useEffect(() => {
+    validateDate();
+    validateGuest();
+    validateSitting();
+    validateTables();
+    validateFirstname();
+    validateLastname();
+    validateEmail();
+    validatePhone();
+  }, [newBookingAdmin]);
 
   const handleChangeAdmin = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -72,6 +98,7 @@ export const ShowCreateNewBooking = () => {
     }
 
     if (e.target.type === "number") {
+      console.log(typeof e.target.name);
       setNewBookingAdmin((prevBooking) => ({
         ...prevBooking,
         guest: { ...prevBooking.guest, [name]: +value },
@@ -86,8 +113,128 @@ export const ShowCreateNewBooking = () => {
 
   const handleSubmitAdmin = (e: FormEvent) => {
     e.preventDefault();
+
     dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
+  };
+
+  const validateDate = (): boolean => {
+    if (newBookingAdmin.date === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowDate(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowDate(false);
+    }
+
+    return false;
+  };
+
+  const validateGuest = (): boolean => {
+    if (newBookingAdmin.people === 0) {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowGuest(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowGuest(false);
+    }
+    return false;
+  };
+
+  const validateSitting = (): boolean => {
+    if (newBookingAdmin.sitting === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowSitting(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowSitting(false);
+    }
+    return false;
+  };
+
+  const validateTables = (): boolean => {
+    if (newBookingAdmin.tables === 0) {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowTables(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowTables(false);
+    }
+    return false;
+  };
+  const validateFirstname = (): boolean => {
+    if (newBookingAdmin.guest.name === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowFirstname(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowFirstname(false);
+    }
+    return false;
+  };
+
+  const validateLastname = (): boolean => {
+    if (newBookingAdmin.guest.lastname === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowLastname(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowLastname(false);
+    }
+    return false;
+  };
+  const validateEmail = (): boolean => {
+    if (newBookingAdmin.guest.email === "") {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowEmail(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowEmail(false);
+    }
+    return false;
+  };
+
+  const validatePhone = (): boolean => {
+    if (newBookingAdmin.guest.phone === 0) {
+      setErrors({
+        ...errors,
+        inputRequired: true,
+        inputRequiredMessage: "This field is required",
+      });
+      setShowPhone(true);
+    } else {
+      setErrors({ ...errors, inputRequired: false });
+      setShowPhone(false);
+    }
+    return false;
   };
 
   return (
@@ -100,7 +247,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="day, date, year - example: Sat, Jun 3, 2023"
           value={newBookingAdmin.date}
           onChange={handleChangeAdmin}
+          required
         ></input>
+        {showDate && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Guests</label>
         <input
@@ -109,7 +260,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="guests"
           value={newBookingAdmin.people}
           onChange={handleChangeAdmin}
+          required
         ></input>
+        {showGuest && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Sitting</label>
         <input
@@ -118,7 +273,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="pick between 17-19 or 19-21"
           value={newBookingAdmin.sitting}
           onChange={handleChangeAdmin}
+          required
         ></input>
+        {showSitting && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Tables</label>
         <input
@@ -126,7 +285,11 @@ export const ShowCreateNewBooking = () => {
           name="tables"
           value={newBookingAdmin.tables}
           onChange={handleChangeAdmin}
+          required
         ></input>
+        {showTables && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Firstname</label>
         <input
@@ -135,7 +298,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="Firstname"
           value={newBookingAdmin.guest.name}
           onChange={handleChangeAdminGuest}
+          required
         ></input>
+        {showFirstname && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Lastname</label>
         <input
@@ -144,7 +311,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="Lastname"
           value={newBookingAdmin.guest.lastname}
           onChange={handleChangeAdminGuest}
+          required
         ></input>
+        {showLastname && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Email</label>
         <input
@@ -153,7 +324,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="Email"
           value={newBookingAdmin.guest.email}
           onChange={handleChangeAdminGuest}
+          required
         ></input>
+        {showEmail && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
 
         <label>Phone</label>
         <input
@@ -162,7 +337,11 @@ export const ShowCreateNewBooking = () => {
           placeholder="Phone"
           value={newBookingAdmin.guest.phone}
           onChange={handleChangeAdminGuest}
+          required
         ></input>
+        {showPhone && errors.inputRequired && (
+          <div className="error">{errors.inputRequiredMessage}</div>
+        )}
         <button>Confirm new booking</button>
       </FormStyled>
     </>
