@@ -14,7 +14,7 @@ export const ShowCreateNewBooking = () => {
   const dispatch = useContext(BookingDispatchContext);
 
   const [newBookingAdmin, setNewBookingAdmin] = useState<IBooking>({
-    _id: 0,
+    _id: "",
     people: 0,
     date: "",
     sitting: "",
@@ -85,6 +85,7 @@ export const ShowCreateNewBooking = () => {
   };
 
   const handleSubmitAdmin = (e: FormEvent) => {
+    e.preventDefault();
     dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
   };
@@ -114,7 +115,7 @@ export const ShowCreateNewBooking = () => {
         <input
           type="text"
           name="sitting"
-          placeholder="sitting"
+          placeholder="pick between 17-19 or 19-21"
           value={newBookingAdmin.sitting}
           onChange={handleChangeAdmin}
         ></input>
@@ -123,7 +124,6 @@ export const ShowCreateNewBooking = () => {
         <input
           type="number"
           name="tables"
-          placeholder="sitting"
           value={newBookingAdmin.tables}
           onChange={handleChangeAdmin}
         ></input>

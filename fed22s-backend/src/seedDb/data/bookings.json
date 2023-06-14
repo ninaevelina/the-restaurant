@@ -1,7 +1,7 @@
 [
   {
     "people": 5,
-    "date": "17 februari 2024",
+    "date": "Wed, Fed 14, 2024",
     "sitting": "first sitting",
     "guest": {
       "name": "Ellen",
@@ -12,7 +12,7 @@
   },
   {
     "people": 5,
-    "date": "5 maj 2025",
+    "date": "Sat, May 10, 2025",
     "sitting": "second sitting",
     "guest": {
       "name": "Elin",
@@ -23,7 +23,7 @@
   },
   {
     "people": 5,
-    "date": "3 Juni 2025",
+    "date": "Mon, Jul 7, 2025",
     "sitting": "first sitting",
     "guest": {
       "name": "Johan",
