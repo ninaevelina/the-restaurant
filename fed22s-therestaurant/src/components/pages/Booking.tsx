@@ -126,8 +126,6 @@ export const Booking = () => {
       ...currentBooking,
       booking: { ...currentBooking.booking, sitting: seatingTime },
     });
-    setShowForm(true);
-    setBookingInfo("Please provide your booking details");
   };
   currentBooking.updateForm = (guestInfo: IGuest) => {
     setCurrentBooking({
@@ -150,6 +148,10 @@ export const Booking = () => {
         tables: amountOfTables(numberOfGuest),
       },
     });
+    setShowForm(true);
+    setBookingInfo("Please provide your booking details");
+    setShowSeatingTime(false);
+    setShowGuest(false);
   };
 
   const amountOfTables = (numberOfGuest: number) => {
@@ -186,19 +188,21 @@ export const Booking = () => {
             </div>
             {showFormAndPeople ? (
               <div>
-                {showSeatingTime && (
-                  <SittingOption
-                    showOrHideTime={disableSittingOption}
-                    changeVisability={disableSittingStyle}
-                  ></SittingOption>
-                )}
-                {showGuest && (
-                  <GuestNumbers
-                    showOrHideNumbers={unAvailableGuestButton}
-                  ></GuestNumbers>
+                {showSeatingTime && showGuest && (
+                  <div>
+                    <SittingOption
+                      showOrHideTime={disableSittingOption}
+                      changeVisability={disableSittingStyle}
+                    ></SittingOption>
+
+                    <p className="bookingInfo">{bookingInfo}</p>
+
+                    <GuestNumbers
+                      showOrHideNumbers={unAvailableGuestButton}
+                    ></GuestNumbers>
+                  </div>
                 )}
 
-                <p>{bookingInfo}</p>
                 {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
               blir show true */}
                 {showForm && <Form></Form>}
