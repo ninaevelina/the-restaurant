@@ -9,7 +9,7 @@ export const GuestNumbersStyled = styled.button`
   height: 50px;
   border: 1px solid black;
   visibility: ${(props: GuestNumbersStyledProps) =>
-    props.available === "seatingOptions" ? "visible" : "hidden"};
+    props.available === "showNumbers" ? "visible" : "hidden"};
 
   &:hover {
     border: none;

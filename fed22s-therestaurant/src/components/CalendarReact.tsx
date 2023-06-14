@@ -1,60 +1,100 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import {
   BookingsContext,
   CurrentBookingContext,
 } from "../contexts/BookingContext";
+import { formatShortWeekday } from "react-calendar/dist/cjs/shared/dateFormatter";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 
 export const CalendarReact = () => {
-  const { updateDate } = useContext(CurrentBookingContext);
-  const { getBookings, fullyBooked, oneTableLeft, bookings } =
-    useContext(BookingsContext);
-  const [value, onChange] = useState(new Date());
+  const { updateDate, booking } = useContext(CurrentBookingContext);
+  const {
+    getBookings,
+    fullyBooked,
+    oneTableLeft,
+    disableSittingOption,
+    bookings,
+  } = useContext(BookingsContext);
+  const [value, onChange] = useState("");
+  const [seatingTime, setSeatingTime] = useState("");
 
   useEffect(() => {
     getBookings();
   }, []);
 
-  useEffect(() => {
-    oneTableLeft("seatingOptions");
-  }, [value]);
+  // useEffect(() => {
+  //   oneTableLeft("seatingOptions");
+  // }, [booking.date]);
 
-  const handleDateChange = (newValue: any) => {
-    const formattedDate = newValue.toLocaleDateString("en-US", {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const handleDateChange = (newValue: Value) => {
+    const formattedDate = newValue?.toLocaleString("en-US").split(",")[0];
 
     const matchedBooking = bookings.filter((b) => formattedDate === b.date);
+
     console.log(matchedBooking);
+
     let peopleThatDay = 0;
     let tablesThatDay = 0;
-    matchedBooking.map((chosenBooking) => {
-      peopleThatDay += chosenBooking.people;
-      if (peopleThatDay === 90) {
-        console.log("fullt med människor");
-      }
 
-      tablesThatDay += chosenBooking.tables;
-      console.log(tablesThatDay);
-      if (tablesThatDay === 14) {
-        console.log("endast 6 platser kvar");
-        oneTableLeft("disableSeatingOption");
-      } else if (tablesThatDay === 15) {
-        fullyBooked();
-        console.log("fullt");
-      }
-    });
+    if (matchedBooking.length === 0) {
+      oneTableLeft("showNumbers");
+      disableSittingOption("showSeating", "");
+    } else {
+      matchedBooking.map((chosenBooking) => {
+        let time = "";
+        chosenBooking.sitting === "17-19" ? (time = "17-19") : (time = "19-21");
+        tablesThatDay += chosenBooking.tables;
+        peopleThatDay += chosenBooking.people;
+        //console.log(chosenBooking);
 
-    onChange(formattedDate);
+        if (chosenBooking.sitting) {
+          if (tablesThatDay === 30) {
+            console.log("helt fullbokat");
+
+            fullyBooked();
+            // }
+          }
+        }
+        //  First sitting
+        if (chosenBooking.sitting === time) {
+          console.log("hej");
+          // If 90 guests = FULL
+
+          if (peopleThatDay === 90) {
+            console.log("fullt med människor");
+          }
+          // If 14 tables are booked = only 6 seats left
+          // If 15 tables are booked = FULL
+
+          console.log(peopleThatDay, tablesThatDay);
+
+          if (tablesThatDay === 14) {
+            console.log("endast 6 platser kvar");
+            oneTableLeft("disableNumbers");
+          } else {
+            oneTableLeft("showNumbers");
+          }
+
+          if (tablesThatDay === 15) {
+            //fullyBooked();
+            console.log(time);
+            disableSittingOption(time, "disableShowSeating");
+          }
+          //  else {
+          //   disableSittingOption(time, "showSeating");
+          // }
+        }
+      });
+    }
+
     updateDate(formattedDate);
+    if (formattedDate) onChange(formattedDate);
   };
 
   return (
     <div>
-      <Calendar onChange={handleDateChange} value={value} />
+      <Calendar onChange={handleDateChange} value={booking.date} />
     </div>
   );
 };

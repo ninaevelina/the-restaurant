@@ -17,6 +17,7 @@ export interface IAllBookingsContext {
   getBookings: () => void;
   fullyBooked: () => void;
   oneTableLeft: (showOrHideGuest: string) => void;
+  disableSittingOption: (showOrHideTime: string, disable: string) => void;
 }
 
 export const CurrentBookingContext = createContext<IBookingContext>({
@@ -63,6 +64,9 @@ export const BookingsContext = createContext<IAllBookingsContext>({
     return;
   },
   oneTableLeft: (showOrHideGuest: string) => {
+    return;
+  },
+  disableSittingOption: (showOrHideTime: string, disable: string) => {
     return;
   },
 });
