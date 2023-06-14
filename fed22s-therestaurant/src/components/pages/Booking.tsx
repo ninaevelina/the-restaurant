@@ -32,6 +32,7 @@ export const Booking = () => {
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
+  const [hideForm, setHideForm] = useState(false); // nytt
 
   const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
     bookings: [],
@@ -163,6 +164,7 @@ export const Booking = () => {
     console.log(currentBooking);
     console.log(result);
     setShowConfirmation(true);
+    setHideForm(true); // nytt
   };
   const handleBackClick = () => {
     setShowFormAndPeople(true);
@@ -171,46 +173,57 @@ export const Booking = () => {
   };
 
   console.log(unAvailableGuestButton);
-
-  return (
-    <>
-      <p>Booking</p>
-      <BookingsContext.Provider value={allBookings}>
-        <CurrentBookingContext.Provider value={currentBooking}>
-          <div className="calendarWrapper">
-            <CalendarReact></CalendarReact>
-          </div>
-          {showFormAndPeople ? (
-            <div>
-              {showSeatingTime && (
-                <SittingOption
-                  showOrHideTime={disableSittingOption}
-                  changeVisability={disableSittingStyle}
-                ></SittingOption>
-              )}
-              {showGuest && (
-                <GuestNumbers
-                  showOrHideNumbers={unAvailableGuestButton}
-                ></GuestNumbers>
-              )}
-
-              <p>{bookingInfo}</p>
-              {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
-              blir show true */}
-              {showForm && <Form></Form>}
+  //nytt
+  if (hideForm === false) {
+    return (
+      <>
+        <p>Booking</p>
+        <BookingsContext.Provider value={allBookings}>
+          <CurrentBookingContext.Provider value={currentBooking}>
+            {showConfirmation && <Confirmation></Confirmation>}
+            <div className="calendarWrapper">
+              <CalendarReact></CalendarReact>
             </div>
-          ) : (
-            <>
-              <h3>
-                Sorry we are fully booked on this date, please go back and try
-                another day!
-              </h3>
-              <button onClick={handleBackClick}>Go back</button>
-            </>
-          )}
-          {showConfirmation && <Confirmation></Confirmation>}
+            {showFormAndPeople ? (
+              <div>
+                {showSeatingTime && (
+                  <SittingOption
+                    showOrHideTime={disableSittingOption}
+                    changeVisability={disableSittingStyle}
+                  ></SittingOption>
+                )}
+                {showGuest && (
+                  <GuestNumbers
+                    showOrHideNumbers={unAvailableGuestButton}
+                  ></GuestNumbers>
+                )}
+
+                <p>{bookingInfo}</p>
+                {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
+              blir show true */}
+                {showForm && <Form></Form>}
+              </div>
+            ) : (
+              <>
+                <h3>
+                  Sorry we are fully booked on this date, please go back and try
+                  another day!
+                </h3>
+                <button onClick={handleBackClick}>Go back</button>
+              </>
+            )}
+            {/*showConfirmation && <Confirmation></Confirmation> moved up*/}
+          </CurrentBookingContext.Provider>
+        </BookingsContext.Provider>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <CurrentBookingContext.Provider value={currentBooking}>
+          <Confirmation></Confirmation>
         </CurrentBookingContext.Provider>
-      </BookingsContext.Provider>
-    </>
-  );
+      </>
+    );
+  }
 };
