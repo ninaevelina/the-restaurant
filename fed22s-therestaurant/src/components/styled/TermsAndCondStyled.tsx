@@ -8,8 +8,8 @@ export const TermsAndCondsStyled = styled.div`
     font-size: 10px;
     text-align: left;
     margin-left: 10px;
-
     padding-right: 10px;
+    margin-top: 0;
   }
   .gdprCheck {
     width: 35px;

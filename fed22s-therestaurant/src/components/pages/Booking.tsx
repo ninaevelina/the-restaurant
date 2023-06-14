@@ -18,6 +18,7 @@ import { SittingOption } from "../SittingOption";
 import { Confirmation } from "../Confirmation";
 import { IBooking } from "../../models/IBooking";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import myImage from "../../assets/restaurantView_medium.jpg";
 
 export const Booking = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -25,6 +26,8 @@ export const Booking = () => {
   const [showGuest, setShowGuest] = useState(true);
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(true);
+  const [showImg, setShowImg] = useState(false);
   const [unAvailableGuestButton, setUnavailableGuestButton] =
     useState("showNumbers");
   const [disableSittingStyle, setDisableSittingStyle] = useState("showSeating");
@@ -33,6 +36,7 @@ export const Booking = () => {
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
   const [hideForm, setHideForm] = useState(false); // nytt
+  const imageUrl = myImage; // or a dynamically calculated URL
 
   const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
     bookings: [],
@@ -149,9 +153,10 @@ export const Booking = () => {
       },
     });
     setShowForm(true);
-    setBookingInfo("Please provide your booking details");
     setShowSeatingTime(false);
     setShowGuest(false);
+    setShowCalendar(false);
+    setShowImg(true);
   };
 
   const amountOfTables = (numberOfGuest: number) => {
@@ -174,18 +179,36 @@ export const Booking = () => {
     allBookings.disableSittingOption("", "showSeating");
   };
 
+  const handleFormBackClick = () => {
+    setShowForm(false);
+    setShowSeatingTime(true);
+    setShowGuest(true);
+    setShowCalendar(true);
+    setShowImg(false);
+  };
+
   console.log(unAvailableGuestButton);
   //nytt
   if (hideForm === false) {
     return (
       <>
-        <p>Booking</p>
+        {showImg && (
+          <img
+            className="bookingImage"
+            src={imageUrl}
+            alt="photo of restaurant"
+          />
+        )}
+
         <BookingsContext.Provider value={allBookings}>
           <CurrentBookingContext.Provider value={currentBooking}>
             {showConfirmation && <Confirmation></Confirmation>}
-            <div className="calendarWrapper">
-              <CalendarReact></CalendarReact>
-            </div>
+            {showCalendar && (
+              <div className="calendarWrapper">
+                <CalendarReact></CalendarReact>
+              </div>
+            )}
+
             {showFormAndPeople ? (
               <div>
                 {showSeatingTime && showGuest && (
@@ -205,7 +228,17 @@ export const Booking = () => {
 
                 {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
               blir show true */}
-                {showForm && <Form></Form>}
+                {showForm && (
+                  <>
+                    <Form></Form>
+                    <button
+                      className="backButton"
+                      onClick={handleFormBackClick}
+                    >
+                      Go back
+                    </button>
+                  </>
+                )}
               </div>
             ) : (
               <>
