@@ -17,6 +17,7 @@ import { GuestNumbers } from "../GuestNumbers";
 import { SittingOption } from "../SittingOption";
 import { Confirmation } from "../Confirmation";
 import { IBooking } from "../../models/IBooking";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 
 export const Booking = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -24,7 +25,10 @@ export const Booking = () => {
   const [showGuest, setShowGuest] = useState(true);
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
-  const [lastTable, setLastTable] = useState(false);
+  const [unAvailableGuestButton, setUnavailableGuestButton] =
+    useState("showNumbers");
+  const [disableSittingStyle, setDisableSittingStyle] = useState("showSeating");
+  const [disableSittingOption, setDisableSittingOption] = useState("");
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
@@ -37,7 +41,10 @@ export const Booking = () => {
     fullyBooked: () => {
       return;
     },
-    oneTableLeft: () => {
+    oneTableLeft: (showOrHideGuest: string) => {
+      return;
+    },
+    disableSittingOption: (showOrHideTime: string, disable: string) => {
       return;
     },
   }));
@@ -91,16 +98,22 @@ export const Booking = () => {
   }, []);
 
   allBookings.fullyBooked = () => {
-    console.log("NU ÄR DET FULLT");
-    //console.log(allBookings.bookings);
     setShowFormAndPeople(false);
   };
 
-  allBookings.oneTableLeft = () => {
-    setLastTable(true);
+  allBookings.oneTableLeft = (showOrHideNumbers: string) => {
+    setUnavailableGuestButton(showOrHideNumbers);
   };
 
-  currentBooking.updateDate = (chosenDate: any) =>
+  allBookings.disableSittingOption = (
+    showOrHideTime: string,
+    disable: string
+  ) => {
+    setDisableSittingOption(showOrHideTime); //time
+    setDisableSittingStyle(disable);
+  };
+
+  currentBooking.updateDate = (chosenDate: string) =>
     setCurrentBooking({
       ...currentBooking,
       booking: { ...currentBooking.booking, date: chosenDate },
@@ -142,9 +155,6 @@ export const Booking = () => {
   };
   currentBooking.addBooking = async () => {
     let result = await createNewBooking(currentBooking.booking);
-    // let resultString = JSON.stringify(result);
-    // console.log(result);
-    //console.log(resultString);
     setCurrentBooking({
       ...currentBooking,
       booking: { ...currentBooking.booking, _id: result._id },
@@ -152,9 +162,13 @@ export const Booking = () => {
     console.log(currentBooking);
     console.log(result);
     setShowConfirmation(true);
-
-    //set default values
   };
+  const handleBackClick = () => {
+    setShowFormAndPeople(true);
+    allBookings.oneTableLeft("showNumbers");
+  };
+
+  console.log(unAvailableGuestButton);
 
   return (
     <>
@@ -166,8 +180,18 @@ export const Booking = () => {
           </div>
           {showFormAndPeople ? (
             <div>
-              {showGuest && <GuestNumbers lastTable={lastTable}></GuestNumbers>}
-              {showSeatingTime && <SittingOption></SittingOption>}
+              {showSeatingTime && (
+                <SittingOption
+                  showOrHideTime={disableSittingOption}
+                  changeVisability={disableSittingStyle}
+                ></SittingOption>
+              )}
+              {showGuest && (
+                <GuestNumbers
+                  showOrHideNumbers={unAvailableGuestButton}
+                ></GuestNumbers>
+              )}
+
               <p>{bookingInfo}</p>
               {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
               blir show true */}
@@ -177,16 +201,9 @@ export const Booking = () => {
             <>
               <h3>
                 Sorry we are fully booked on this date, please go back and try
-                another one!
+                another day!
               </h3>
-              <button
-                onClick={() => {
-                  console.log("ojiji");
-                  setShowFormAndPeople(true);
-                }}
-              >
-                Go back
-              </button>
+              <button onClick={handleBackClick}>Go back</button>
             </>
           )}
           {showConfirmation && <Confirmation></Confirmation>}
