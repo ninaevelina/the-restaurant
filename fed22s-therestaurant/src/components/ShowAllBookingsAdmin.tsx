@@ -6,14 +6,17 @@ import { deleteBooking } from "../services/restaurantApi";
 import { ShowCreateNewBooking } from "./ShowCreateNewBooking";
 import { IBooking } from "../models/IBooking";
 import Calendar from "react-calendar";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 
 export const ShowAllBookingsAdmin = () => {
   const bookings = useContext(BookingAdminContext);
   const dispatch = useContext(BookingDispatchContext);
 
+  console.log(bookings);
+
   const [showForm, setShowForm] = useState(false);
   const [showSortData, setShowSortData] = useState<IBooking[]>([]);
-  const [value, onChange] = useState(new Date());
+  const [value, onChange] = useState("");
 
   const deleteCurrentBooking = (id: string) => {
     dispatch({ type: ActionType.DELETEBOOKING, payload: id });
@@ -26,6 +29,7 @@ export const ShowAllBookingsAdmin = () => {
   };
 
   const sortDataDate = () => {
+    console.log("klickade på sortDataDate");
     const sortData = [...bookings].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -69,13 +73,10 @@ export const ShowAllBookingsAdmin = () => {
     );
   });
 
-  const handleSortChange = (newValue: any) => {
-    const formattedDate = newValue.toLocaleDateString("en-US", {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const handleSortChange = (newValue: Value) => {
+    const formattedDate = newValue?.toLocaleString("en-US").split(",")[0];
+
+    console.log(formattedDate);
 
     const matchedBooking = bookings.filter((b) => formattedDate === b.date);
 
@@ -85,7 +86,7 @@ export const ShowAllBookingsAdmin = () => {
       a.date < b.date ? -1 : 1
     );
 
-    onChange(formattedDate);
+    if (formattedDate) onChange(formattedDate);
     setShowSortData(sortDataDate);
   };
 
