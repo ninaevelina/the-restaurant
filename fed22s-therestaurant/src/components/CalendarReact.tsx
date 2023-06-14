@@ -16,16 +16,12 @@ export const CalendarReact = () => {
     disableSittingOption,
     bookings,
   } = useContext(BookingsContext);
-  const [value, onChange] = useState("");
-  const [seatingTime, setSeatingTime] = useState("");
+  // const [value, onChange] = useState("");
+  // const [seatingTime, setSeatingTime] = useState("");
 
   useEffect(() => {
     getBookings();
   }, []);
-
-  // useEffect(() => {
-  //   oneTableLeft("seatingOptions");
-  // }, [booking.date]);
 
   const handleDateChange = (newValue: Value) => {
     const formattedDate = newValue?.toLocaleString("en-US").split(",")[0];
@@ -36,13 +32,13 @@ export const CalendarReact = () => {
 
     let peopleThatDay = 0;
     let tablesThatDay = 0;
+    let time = "";
 
     if (matchedBooking.length === 0) {
       oneTableLeft("showNumbers");
-      disableSittingOption("showSeating", "");
+      disableSittingOption("", "showSeating");
     } else {
       matchedBooking.map((chosenBooking) => {
-        let time = "";
         chosenBooking.sitting === "17-19" ? (time = "17-19") : (time = "19-21");
         tablesThatDay += chosenBooking.tables;
         peopleThatDay += chosenBooking.people;
@@ -51,14 +47,12 @@ export const CalendarReact = () => {
         if (chosenBooking.sitting) {
           if (tablesThatDay === 30) {
             console.log("helt fullbokat");
-
             fullyBooked();
             // }
           }
         }
         //  First sitting
         if (chosenBooking.sitting === time) {
-          console.log("hej");
           // If 90 guests = FULL
 
           if (peopleThatDay === 90) {
@@ -78,18 +72,17 @@ export const CalendarReact = () => {
 
           if (tablesThatDay === 15) {
             //fullyBooked();
-            console.log(time);
             disableSittingOption(time, "disableShowSeating");
           }
-          //  else {
-          //   disableSittingOption(time, "showSeating");
-          // }
+          if (tablesThatDay < 14) {
+            disableSittingOption(time, "showSeating");
+          }
         }
       });
     }
 
     updateDate(formattedDate);
-    if (formattedDate) onChange(formattedDate);
+    // if (formattedDate) onChange(formattedDate);
   };
 
   return (
