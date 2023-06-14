@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { SittingButton } from "./styled/SittingButton";
-import { CurrentBookingContext } from "../contexts/BookingContext";
+import {
+  BookingsContext,
+  CurrentBookingContext,
+} from "../contexts/BookingContext";
 import { IBooking } from "../models/IBooking";
 
 interface disableTimeProps {
@@ -12,11 +15,12 @@ export const SittingOption = ({
   showOrHideTime,
   changeVisability,
 }: disableTimeProps) => {
-  console.log(showOrHideTime);
+  // console.log(showOrHideTime);
   console.log(changeVisability);
 
   // const [first, setFirst] = useState(true);
   // const [second, setSecond] = useState(false);
+  const { bookings } = useContext(BookingsContext);
   const { updateSeating } = useContext(CurrentBookingContext);
   const [toggleFirstVisability, setToggleFirstVisability] =
     useState("showSeating");
@@ -33,9 +37,21 @@ export const SittingOption = ({
   useEffect(() => {
     if (showOrHideTime === "17-19") {
       setToggleFirstVisability(changeVisability);
+      setToggleSecondVisability("showSeating");
     }
     if (showOrHideTime === "19-21") {
       setToggleSecondVisability(changeVisability);
+      setToggleFirstVisability("showSeating");
+    }
+    // bookings.map((b) => {
+    //   if (b.tables < 15) {
+    //   }
+    // });
+
+    if (showOrHideTime === "") {
+      setToggleFirstVisability("showSeating");
+      setToggleSecondVisability("showSeating");
+      console.log("hejhej");
     }
   });
 

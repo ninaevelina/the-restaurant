@@ -111,6 +111,7 @@ export const Booking = () => {
   ) => {
     setDisableSittingOption(showOrHideTime); //time
     setDisableSittingStyle(disable);
+    console.log(showOrHideTime, disable);
   };
 
   currentBooking.updateDate = (chosenDate: string) =>
@@ -166,6 +167,7 @@ export const Booking = () => {
   const handleBackClick = () => {
     setShowFormAndPeople(true);
     allBookings.oneTableLeft("showNumbers");
+    allBookings.disableSittingOption("", "showSeating");
   };
 
   console.log(unAvailableGuestButton);
