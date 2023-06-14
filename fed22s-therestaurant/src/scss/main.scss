@@ -1,11 +1,31 @@
 .guestNumberWrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 25px;
+  margin-right: 0px;
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
-
 .calendarWrapper {
   display: flex;
   justify-content: center;
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+
+.bookingInfo {
+  font-size: 13px;
   margin-bottom: 30px;
+}
+.bookingImage {
+  width: 390px;
+  height: 400px;
+}
+
+.backButton {
+  margin-top: 0px;
+  border: 1px solid black;
+  padding-left: 50px;
+  padding-right: 50px;
 }

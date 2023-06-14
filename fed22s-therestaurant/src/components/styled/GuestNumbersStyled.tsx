@@ -12,10 +12,18 @@ export const GuestNumbersStyled = styled.button`
     props.available === "showNumbers" ? "visible" : "hidden"};
 
   &:hover {
-    border: none;
+    border: #b42e27 2px solid;
   }
 
   &:last-child {
     padding-left: 15px;
+  }
+
+  &:focus {
+    background-color: #b42e27;
+    color: white;
+  }
+  &:checked {
+    background-color: #b42e27;
   }
 `;

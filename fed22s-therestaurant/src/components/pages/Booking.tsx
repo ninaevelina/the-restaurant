@@ -18,6 +18,7 @@ import { SittingOption } from "../SittingOption";
 import { Confirmation } from "../Confirmation";
 import { IBooking } from "../../models/IBooking";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import myImage from "../../assets/restaurantView_medium.jpg";
 
 export const Booking = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -25,6 +26,8 @@ export const Booking = () => {
   const [showGuest, setShowGuest] = useState(true);
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(true);
+  const [showImg, setShowImg] = useState(false);
   const [unAvailableGuestButton, setUnavailableGuestButton] =
     useState("showNumbers");
   const [disableSittingStyle, setDisableSittingStyle] = useState("showSeating");
@@ -32,6 +35,8 @@ export const Booking = () => {
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
+  const [hideForm, setHideForm] = useState(false); // nytt
+  const imageUrl = myImage; // or a dynamically calculated URL
 
   const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
     bookings: [],
@@ -111,6 +116,7 @@ export const Booking = () => {
   ) => {
     setDisableSittingOption(showOrHideTime); //time
     setDisableSittingStyle(disable);
+    console.log(showOrHideTime, disable);
   };
 
   currentBooking.updateDate = (chosenDate: string) =>
@@ -124,8 +130,6 @@ export const Booking = () => {
       ...currentBooking,
       booking: { ...currentBooking.booking, sitting: seatingTime },
     });
-    setShowForm(true);
-    setBookingInfo("Please provide your booking details");
   };
   currentBooking.updateForm = (guestInfo: IGuest) => {
     setCurrentBooking({
@@ -148,6 +152,11 @@ export const Booking = () => {
         tables: amountOfTables(numberOfGuest),
       },
     });
+    setShowForm(true);
+    setShowSeatingTime(false);
+    setShowGuest(false);
+    setShowCalendar(false);
+    setShowImg(true);
   };
 
   const amountOfTables = (numberOfGuest: number) => {
@@ -162,53 +171,96 @@ export const Booking = () => {
     console.log(currentBooking);
     console.log(result);
     setShowConfirmation(true);
+    setHideForm(true); // nytt
   };
   const handleBackClick = () => {
     setShowFormAndPeople(true);
     allBookings.oneTableLeft("showNumbers");
+    allBookings.disableSittingOption("", "showSeating");
+  };
+
+  const handleFormBackClick = () => {
+    setShowForm(false);
+    setShowSeatingTime(true);
+    setShowGuest(true);
+    setShowCalendar(true);
+    setShowImg(false);
   };
 
   console.log(unAvailableGuestButton);
+  //nytt
+  if (hideForm === false) {
+    return (
+      <>
+        {showImg && (
+          <img
+            className="bookingImage"
+            src={imageUrl}
+            alt="photo of restaurant"
+          />
+        )}
 
-  return (
-    <>
-      <p>Booking</p>
-      <BookingsContext.Provider value={allBookings}>
-        <CurrentBookingContext.Provider value={currentBooking}>
-          <div className="calendarWrapper">
-            <CalendarReact></CalendarReact>
-          </div>
-          {showFormAndPeople ? (
-            <div>
-              {showSeatingTime && (
-                <SittingOption
-                  showOrHideTime={disableSittingOption}
-                  changeVisability={disableSittingStyle}
-                ></SittingOption>
-              )}
-              {showGuest && (
-                <GuestNumbers
-                  showOrHideNumbers={unAvailableGuestButton}
-                ></GuestNumbers>
-              )}
+        <BookingsContext.Provider value={allBookings}>
+          <CurrentBookingContext.Provider value={currentBooking}>
+            {showConfirmation && <Confirmation></Confirmation>}
+            {showCalendar && (
+              <div className="calendarWrapper">
+                <CalendarReact></CalendarReact>
+              </div>
+            )}
 
-              <p>{bookingInfo}</p>
-              {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
+            {showFormAndPeople ? (
+              <div>
+                {showSeatingTime && showGuest && (
+                  <div>
+                    <SittingOption
+                      showOrHideTime={disableSittingOption}
+                      changeVisability={disableSittingStyle}
+                    ></SittingOption>
+
+                    <p className="bookingInfo">{bookingInfo}</p>
+
+                    <GuestNumbers
+                      showOrHideNumbers={unAvailableGuestButton}
+                    ></GuestNumbers>
+                  </div>
+                )}
+
+                {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
               blir show true */}
-              {showForm && <Form></Form>}
-            </div>
-          ) : (
-            <>
-              <h3>
-                Sorry we are fully booked on this date, please go back and try
-                another day!
-              </h3>
-              <button onClick={handleBackClick}>Go back</button>
-            </>
-          )}
-          {showConfirmation && <Confirmation></Confirmation>}
+                {showForm && (
+                  <>
+                    <Form></Form>
+                    <button
+                      className="backButton"
+                      onClick={handleFormBackClick}
+                    >
+                      Go back
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : (
+              <>
+                <h3>
+                  Sorry we are fully booked on this date, please go back and try
+                  another day!
+                </h3>
+                <button onClick={handleBackClick}>Go back</button>
+              </>
+            )}
+            {/*showConfirmation && <Confirmation></Confirmation> moved up*/}
+          </CurrentBookingContext.Provider>
+        </BookingsContext.Provider>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <CurrentBookingContext.Provider value={currentBooking}>
+          <Confirmation></Confirmation>
         </CurrentBookingContext.Provider>
-      </BookingsContext.Provider>
-    </>
-  );
+      </>
+    );
+  }
 };
