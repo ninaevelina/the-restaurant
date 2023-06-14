@@ -4,8 +4,9 @@ import {
   BookingsContext,
   CurrentBookingContext,
 } from "../contexts/BookingContext";
-import { formatShortWeekday } from "react-calendar/dist/cjs/shared/dateFormatter";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import "react-calendar/dist/Calendar.css";
+import { CalendarContainer } from "./styled/CalendarContainer";
 
 export const CalendarReact = () => {
   const { updateDate, booking } = useContext(CurrentBookingContext);
@@ -86,8 +87,8 @@ export const CalendarReact = () => {
   };
 
   return (
-    <div>
+    <CalendarContainer>
       <Calendar onChange={handleDateChange} value={booking.date} />
-    </div>
+    </CalendarContainer>
   );
 };

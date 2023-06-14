@@ -13,6 +13,9 @@ export const FormStyled = styled.form`
     height: 30px;
   }
 
+  input:focus {
+  }
+
   button {
     margin-top: 10px;
     border: 1px solid black;
