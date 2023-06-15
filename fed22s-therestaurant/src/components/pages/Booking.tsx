@@ -37,6 +37,7 @@ export const Booking = () => {
   );
   const [hideForm, setHideForm] = useState(false); // nytt
   const imageUrl = myImage; // or a dynamically calculated URL
+  //const [isLoading, setIsLoading] = useState(true);
 
   const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
     bookings: [],
@@ -70,7 +71,21 @@ export const Booking = () => {
     },
 
     addBooking: () => {
-      return;
+      return new Promise<IBooking>((resolve) =>
+        resolve({
+          _id: "",
+          people: 0,
+          date: "",
+          sitting: "",
+          tables: 0,
+          guest: {
+            name: "",
+            lastname: "",
+            email: "",
+            phone: 0,
+          },
+        })
+      );
     },
     updatePeople: (numberOfGuest: number) => {
       return;
@@ -162,7 +177,7 @@ export const Booking = () => {
   const amountOfTables = (numberOfGuest: number) => {
     return numberOfGuest > 6 ? 2 : 1;
   };
-  currentBooking.addBooking = async () => {
+  currentBooking.addBooking = async (): Promise<IBooking> => {
     let result = await createNewBooking(currentBooking.booking);
     setCurrentBooking({
       ...currentBooking,
@@ -172,7 +187,10 @@ export const Booking = () => {
     console.log(result);
     setShowConfirmation(true);
     setHideForm(true); // nytt
+
+    return result;
   };
+
   const handleBackClick = () => {
     setShowFormAndPeople(true);
     allBookings.oneTableLeft("showNumbers");

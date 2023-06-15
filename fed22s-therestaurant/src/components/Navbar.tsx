@@ -12,7 +12,7 @@ export const Navbar = () => {
           <p>Book</p>
         </Link>
         <Link to="/contact">
-          <p>contact</p>
+          <p>Contact</p>
         </Link>
       </NavbarStyled>
     </>
