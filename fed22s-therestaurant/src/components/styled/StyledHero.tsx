@@ -10,4 +10,17 @@ export const StyledHero = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
+
+  .container {
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    margin-top: 50px;
+  }
+
+  button {
+    background-color: #b42e27;
+    color: white;
+    //position: absolute;
+  }
 `;
