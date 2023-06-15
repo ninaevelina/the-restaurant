@@ -9,7 +9,10 @@ import {
 import { BookingDispatchContext } from "../../contexts/BookingDispatchContext";
 
 export const Admin = () => {
-  const [bookings, dispatch] = useReducer(BookingsReducer, []);
+  const [bookings, dispatch] = useReducer(BookingsReducer, {
+    bookings: [],
+    filteredBookings: [],
+  });
 
   useEffect(() => {
     const getData = async () => {

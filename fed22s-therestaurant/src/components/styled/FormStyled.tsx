@@ -22,3 +22,16 @@ export const FormStyled = styled.form`
     border: 1px solid black;
   }
 `;
+
+export const FormAdminStyled = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  margin-top: 30px;
+
+  input {
+    width: 320px;
+    height: 30px;
+  }
+`;

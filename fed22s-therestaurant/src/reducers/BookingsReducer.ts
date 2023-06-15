@@ -10,18 +10,41 @@ export enum ActionType {
   GOTALLBOOKINGS,
   DELETEBOOKING,
   CREATENEWBOOKING,
+  FILTERED,
 }
 
-export const BookingsReducer = (bookings: IBooking[], action: IAction) => {
+export interface IBookingsState {
+  bookings: IBooking[];
+  filteredBookings: IBooking[];
+}
+
+export const BookingsReducer = (
+  state: IBookingsState,
+  action: IAction
+): IBookingsState => {
   switch (action.type) {
     case ActionType.GOTALLBOOKINGS: {
-      return JSON.parse(action.payload);
+      return {
+        bookings: JSON.parse(action.payload),
+        filteredBookings: JSON.parse(action.payload),
+      };
     }
 
     case ActionType.DELETEBOOKING: {
-      return bookings.filter(
+      const listWithoutTheRemovedBooking = state.bookings.filter(
         (booking) => booking._id.toString() !== action.payload
       );
+
+      const filteredListWithoutTheRemovedBooking =
+        state.filteredBookings.filter(
+          (booking) => booking._id.toString() !== action.payload
+        );
+
+      return {
+        ...state,
+        bookings: listWithoutTheRemovedBooking,
+        filteredBookings: filteredListWithoutTheRemovedBooking,
+      };
     }
     case ActionType.CREATENEWBOOKING: {
       const newBooking: IBooking = {
@@ -38,12 +61,24 @@ export const BookingsReducer = (bookings: IBooking[], action: IAction) => {
         },
       };
 
-      return [...bookings, newBooking];
+      return { ...state, bookings: [...state.bookings, newBooking] };
+    }
+
+    case ActionType.FILTERED: {
+      const matchedBooking = state.bookings.filter(
+        (b) => action.payload === b.date
+      );
+
+      const sortDate = [...matchedBooking].sort((a, b) =>
+        a.date < b.date ? -1 : 1
+      );
+
+      return { ...state, filteredBookings: sortDate };
     }
 
     default:
       break;
   }
 
-  return bookings;
+  return state;
 };

@@ -4,12 +4,15 @@ import {
   CurrentBookingContext,
 } from "../contexts/BookingContext";
 import { IGuest } from "../models/IGuest";
-import { FormStyled } from "./styled/FormStyled";
+import { FormAdminStyled, FormStyled } from "./styled/FormStyled";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { IBooking } from "../models/IBooking";
 import { ActionType } from "../reducers/BookingsReducer";
 import { createNewBooking } from "../services/restaurantApi";
 import { IFormError } from "../models/IFormError";
+import { ErrorMessage } from "./styled/ErrorMessageStyled";
+import { ButtonAdmin } from "./styled/ButtonAdmin";
+import { TextBooking } from "./styled/AdminBookingsContainer";
 
 export const ShowCreateNewBooking = () => {
   const dispatch = useContext(BookingDispatchContext);
@@ -62,11 +65,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         [name]: value,
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: value },
-      });
     }
 
     if (e.target.type === "number") {
@@ -74,11 +72,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         [name]: +value,
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: +value },
-      });
     }
   };
 
@@ -90,11 +83,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         guest: { ...prevBooking.guest, [name]: value },
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: value },
-      });
     }
 
     if (e.target.type === "number") {
@@ -103,11 +91,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         guest: { ...prevBooking.guest, [name]: +value },
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: +value },
-      });
     }
   };
 
@@ -116,6 +99,20 @@ export const ShowCreateNewBooking = () => {
 
     dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
+
+    setNewBookingAdmin({
+      _id: "",
+      people: 0,
+      date: "",
+      sitting: "",
+      tables: 0,
+      guest: {
+        name: "",
+        lastname: "",
+        email: "",
+        phone: 0,
+      },
+    });
   };
 
   const validateDate = (): boolean => {
@@ -239,21 +236,21 @@ export const ShowCreateNewBooking = () => {
 
   return (
     <>
-      <FormStyled onSubmit={handleSubmitAdmin}>
-        <label>Date</label>
+      <FormAdminStyled onSubmit={handleSubmitAdmin}>
+        <TextBooking>Date</TextBooking>
         <input
           type="text"
           name="date"
-          placeholder="day, date, year - example: Sat, Jun 3, 2023"
+          placeholder="MM/DD/YYYY - example: 6/15/2023"
           value={newBookingAdmin.date}
           onChange={handleChangeAdmin}
           required
         ></input>
         {showDate && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Guests</label>
+        <TextBooking>Guests</TextBooking>
         <input
           type="number"
           name="people"
@@ -263,10 +260,10 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showGuest && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Sitting</label>
+        <TextBooking>Sitting</TextBooking>
         <input
           type="text"
           name="sitting"
@@ -276,10 +273,10 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showSitting && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Tables</label>
+        <TextBooking>Tables</TextBooking>
         <input
           type="number"
           name="tables"
@@ -288,10 +285,10 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showTables && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Firstname</label>
+        <TextBooking>Firstname</TextBooking>
         <input
           type="text"
           name="name"
@@ -301,10 +298,10 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showFirstname && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Lastname</label>
+        <TextBooking>Lastname</TextBooking>
         <input
           type="text"
           name="lastname"
@@ -314,10 +311,10 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showLastname && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Email</label>
+        <TextBooking>Email</TextBooking>
         <input
           type="email"
           name="email"
@@ -327,10 +324,10 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showEmail && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Phone</label>
+        <TextBooking>Phone</TextBooking>
         <input
           type="number"
           name="phone"
@@ -340,10 +337,12 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showPhone && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
-        <button>Confirm new booking</button>
-      </FormStyled>
+        <ButtonAdmin className="confirmBookingAdmin" type="submit">
+          Confirm new booking
+        </ButtonAdmin>
+      </FormAdminStyled>
     </>
   );
 };

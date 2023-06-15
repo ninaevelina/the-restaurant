@@ -7,15 +7,30 @@ import { ShowCreateNewBooking } from "./ShowCreateNewBooking";
 import { IBooking } from "../models/IBooking";
 import Calendar from "react-calendar";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import {
+  BookingContainerMain,
+  BookingsContainer,
+  TextBooking,
+} from "../components/styled/AdminBookingsContainer";
+import {
+  CalendarContainer,
+  CalendarContainerAdmin,
+} from "./styled/CalendarContainer";
+import {
+  AllBookingsAdminButton,
+  CancelCreateBookingAdminButton,
+  CreateBookingsAdminButton,
+  DeleteBookingAdminButton,
+} from "./styled/ButtonAdmin";
 
 export const ShowAllBookingsAdmin = () => {
-  const bookings = useContext(BookingAdminContext);
+  const { bookings, filteredBookings } = useContext(BookingAdminContext);
   const dispatch = useContext(BookingDispatchContext);
 
   console.log(bookings);
 
   const [showForm, setShowForm] = useState(false);
-  const [showSortData, setShowSortData] = useState<IBooking[]>([]);
+  // const [showSortData, setShowSortData] = useState<IBooking[]>([]);;
   const [value, onChange] = useState("");
 
   const deleteCurrentBooking = (id: string) => {
@@ -37,57 +52,43 @@ export const ShowAllBookingsAdmin = () => {
     });
 
     console.log(sortData);
-    setShowSortData(sortData);
+    // setShowSortData(sortData);
+
+    dispatch({
+      type: ActionType.GOTALLBOOKINGS,
+      payload: JSON.stringify(sortData),
+    });
   };
 
-  const data = showSortData.map((b) => {
-    const date = b.date;
-    const dateObj = new Date(date);
-    const formattedDate = dateObj.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-
-    console.log(formattedDate);
-    console.log(date);
+  const data = filteredBookings.map((b) => {
     return (
-      <div key={b._id}>
-        <p>date: {formattedDate}</p>
-        <p>guests: {b.people}</p>
-        <p>Sitting: {b.sitting}</p>
-        <p>Firstname: {b.guest.name}</p>
-        <p>Lastname: {b.guest.lastname}</p>
-        <p>Phone: {b.guest.phone}</p>
-        <p>email: {b.guest.email}</p>
+      <BookingsContainer key={b._id}>
+        <TextBooking>date: {b.date}</TextBooking>
+        <TextBooking>guests: {b.people}</TextBooking>
+        <TextBooking>Sitting: {b.sitting}</TextBooking>
+        <TextBooking>Firstname: {b.guest.name}</TextBooking>
+        <TextBooking>Lastname: {b.guest.lastname}</TextBooking>
+        <TextBooking>Phone: {b.guest.phone}</TextBooking>
+        <TextBooking>email: {b.guest.email}</TextBooking>
 
-        <button
+        <DeleteBookingAdminButton
           onClick={() => {
             deleteCurrentBooking(b._id.toString()),
               deleteBooking(b._id.toString());
           }}
         >
           delete booking
-        </button>
-      </div>
+        </DeleteBookingAdminButton>
+      </BookingsContainer>
     );
   });
 
+  console.log(data);
+
   const handleSortChange = (newValue: Value) => {
     const formattedDate = newValue?.toLocaleString("en-US").split(",")[0];
-
-    console.log(formattedDate);
-
-    const matchedBooking = bookings.filter((b) => formattedDate === b.date);
-
-    console.log(matchedBooking);
-
-    const sortDataDate = [...matchedBooking].sort((a, b) =>
-      a.date < b.date ? -1 : 1
-    );
-
+    dispatch({ type: ActionType.FILTERED, payload: formattedDate });
     if (formattedDate) onChange(formattedDate);
-    setShowSortData(sortDataDate);
   };
 
   const cancelNewBooking = () => {
@@ -96,13 +97,22 @@ export const ShowAllBookingsAdmin = () => {
 
   return (
     <>
-      <button onClick={sortDataDate}>All Bookings</button>
-      <button onClick={showCreateForm}>create new booking</button>
+      <AllBookingsAdminButton onClick={sortDataDate}>
+        All Bookings
+      </AllBookingsAdminButton>
+      <CreateBookingsAdminButton onClick={showCreateForm}>
+        create new booking
+      </CreateBookingsAdminButton>
       {showForm && <ShowCreateNewBooking></ShowCreateNewBooking>}
-      {showForm && <button onClick={cancelNewBooking}>Cancel</button>}
-      <Calendar onChange={handleSortChange} value={value} />
-
-      <div>{data}</div>
+      {showForm && (
+        <CancelCreateBookingAdminButton onClick={cancelNewBooking}>
+          Cancel
+        </CancelCreateBookingAdminButton>
+      )}
+      <CalendarContainerAdmin>
+        <Calendar onChange={handleSortChange} value={value} />
+      </CalendarContainerAdmin>
+      <BookingContainerMain>{data}</BookingContainerMain>
     </>
   );
 };
