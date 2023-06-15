@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { IBooking } from "../models/IBooking";
 import { IGuest } from "../models/IGuest";
+import { IBookingsState } from "../reducers/BookingsReducer";
 
 export interface IBookingContext {
   booking: IBooking;
@@ -71,4 +72,7 @@ export const BookingsContext = createContext<IAllBookingsContext>({
   },
 });
 
-export const BookingAdminContext = createContext<IBooking[]>([]);
+export const BookingAdminContext = createContext<IBookingsState>({
+  bookings: [],
+  filteredBookings: [],
+});

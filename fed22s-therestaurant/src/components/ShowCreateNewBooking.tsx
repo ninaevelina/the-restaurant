@@ -4,12 +4,15 @@ import {
   CurrentBookingContext,
 } from "../contexts/BookingContext";
 import { IGuest } from "../models/IGuest";
-import { FormStyled } from "./styled/FormStyled";
+import { FormAdminStyled, FormStyled } from "./styled/FormStyled";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { IBooking } from "../models/IBooking";
 import { ActionType } from "../reducers/BookingsReducer";
 import { createNewBooking } from "../services/restaurantApi";
 import { IFormError } from "../models/IFormError";
+import { ErrorMessage } from "./styled/ErrorMessageStyled";
+import "../scss/admin.scss";
+import { ButtonAdmin } from "./styled/ButtonAdmin";
 
 export const ShowCreateNewBooking = () => {
   const dispatch = useContext(BookingDispatchContext);
@@ -62,11 +65,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         [name]: value,
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: value },
-      });
     }
 
     if (e.target.type === "number") {
@@ -74,11 +72,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         [name]: +value,
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: +value },
-      });
     }
   };
 
@@ -90,11 +83,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         guest: { ...prevBooking.guest, [name]: value },
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: value },
-      });
     }
 
     if (e.target.type === "number") {
@@ -103,11 +91,6 @@ export const ShowCreateNewBooking = () => {
         ...prevBooking,
         guest: { ...prevBooking.guest, [name]: +value },
       }));
-
-      dispatch({
-        type: ActionType.CREATENEWBOOKING,
-        payload: { [name]: +value },
-      });
     }
   };
 
@@ -116,6 +99,20 @@ export const ShowCreateNewBooking = () => {
 
     dispatch({ type: ActionType.CREATENEWBOOKING, payload: newBookingAdmin });
     createNewBooking(newBookingAdmin);
+
+    setNewBookingAdmin({
+      _id: "",
+      people: 0,
+      date: "",
+      sitting: "",
+      tables: 0,
+      guest: {
+        name: "",
+        lastname: "",
+        email: "",
+        phone: 0,
+      },
+    });
   };
 
   const validateDate = (): boolean => {
@@ -239,18 +236,18 @@ export const ShowCreateNewBooking = () => {
 
   return (
     <>
-      <FormStyled onSubmit={handleSubmitAdmin}>
+      <FormAdminStyled onSubmit={handleSubmitAdmin}>
         <label>Date</label>
         <input
           type="text"
           name="date"
-          placeholder="day, date, year - example: Sat, Jun 3, 2023"
+          placeholder="MM/DD/YYYY - example: 6/15/2023"
           value={newBookingAdmin.date}
           onChange={handleChangeAdmin}
           required
         ></input>
         {showDate && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Guests</label>
@@ -263,7 +260,7 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showGuest && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Sitting</label>
@@ -276,7 +273,7 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showSitting && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Tables</label>
@@ -288,7 +285,7 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showTables && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Firstname</label>
@@ -301,7 +298,7 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showFirstname && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Lastname</label>
@@ -314,7 +311,7 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showLastname && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Email</label>
@@ -327,7 +324,7 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showEmail && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
         <label>Phone</label>
@@ -340,10 +337,12 @@ export const ShowCreateNewBooking = () => {
           required
         ></input>
         {showPhone && errors.inputRequired && (
-          <div className="error">{errors.inputRequiredMessage}</div>
+          <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
-        <button>Confirm new booking</button>
-      </FormStyled>
+        <ButtonAdmin className="confirmBookingAdmin" type="submit">
+          Confirm new booking
+        </ButtonAdmin>
+      </FormAdminStyled>
     </>
   );
 };
