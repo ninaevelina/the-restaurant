@@ -1,10 +1,7 @@
 import { GuestNumbersStyled } from "./styled/GuestNumbersStyled";
 import "../scss/main.scss";
-import { useContext, useEffect, useState } from "react";
-import {
-  BookingsContext,
-  CurrentBookingContext,
-} from "../contexts/BookingContext";
+import { useContext } from "react";
+import { CurrentBookingContext } from "../contexts/BookingContext";
 
 interface unAvailableGuestButtonProps {
   showOrHideNumbers: string;

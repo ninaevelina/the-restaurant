@@ -22,3 +22,5 @@ export const AllBookingsAdminButton = styled(ButtonAdmin)`
 export const CreateBookingsAdminButton = styled(ButtonAdmin)``;
 
 export const CancelCreateBookingAdminButton = styled(ButtonAdmin)``;
+
+export const BackToHomePageButton = styled(ButtonAdmin);

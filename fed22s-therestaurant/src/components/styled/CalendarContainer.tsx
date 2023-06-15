@@ -35,7 +35,6 @@ export const CalendarContainer = styled.div`
   .react-calendar__month-view__weekdays__weekday {
     color: #000000;
   }
-  /* ~~~ button styles ~~~ */
 `;
 
 export const CalendarContainerAdmin = styled.div`
@@ -76,5 +75,4 @@ export const CalendarContainerAdmin = styled.div`
   .react-calendar__month-view__weekdays__weekday {
     color: #000000;
   }
-  /* ~~~ button styles ~~~ */
 `;

@@ -1,30 +1,22 @@
 import { useState } from "react";
 import { useContext } from "react";
-import {
-  BookingsContext,
-  CurrentBookingContext,
-} from "../contexts/BookingContext";
-import { IBooking } from "../models/IBooking";
-import { StyledHeading } from "./styled/Headings";
-import { ActionType } from "../reducers/BookingsReducer";
+import { CurrentBookingContext } from "../contexts/BookingContext";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { deleteBooking } from "../services/restaurantApi";
 import { Link } from "react-router-dom";
+import { DeleteBookingAdminButton } from "./styled/ButtonAdmin";
+import { BookingButton } from "./styled/BookingButtons";
 
 export const Confirmation = () => {
   const [showConfirmation, setShowConfirmation] = useState(true);
   const { booking } = useContext(CurrentBookingContext);
-  const dispatch = useContext(BookingDispatchContext);
   const [showDeleted, setShowDeleted] = useState(false);
-  //const [isLoading, setIsLoading] = useState(true);
 
   const handleClick = async () => {
-    // setIsLoading(true);
     await deleteBooking(booking._id);
     console.log("log");
     setShowConfirmation(false);
     setShowDeleted(true);
-    // setIsLoading(false);
   };
 
   if (showDeleted === false) {
@@ -68,7 +60,9 @@ export const Confirmation = () => {
               </div>
             </div>
             <div>
-              <button onClick={handleClick}>Delete</button>
+              <DeleteBookingAdminButton onClick={handleClick}>
+                Delete
+              </DeleteBookingAdminButton>
             </div>
           </div>
         )}
@@ -78,7 +72,10 @@ export const Confirmation = () => {
     return (
       <>
         <h3>Your booking has been cancelled!</h3>
-        <Link to="/">Back to homepage</Link>
+
+        <Link className="backToHomepage" to="/">
+          Back to homepage
+        </Link>
       </>
     );
   }

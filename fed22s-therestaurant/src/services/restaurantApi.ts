@@ -31,9 +31,7 @@ export const updateBooking = async (id: number, booking: IBooking) => {
   const response = await axios.put<IBooking>(
     `http://localhost:4000/api/v1/booking/${id}`,
     booking
-  ); //skicka in i parametern istället!!
-
-  // return response.data;
+  );
 };
 
 //DELETEß

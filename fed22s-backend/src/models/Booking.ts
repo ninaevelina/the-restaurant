@@ -2,7 +2,6 @@ import { Schema, model } from "mongoose";
 import { IGuest } from "./Guest";
 
 export interface IBooking {
-  // _id: Schema.Types.ObjectId;
   people: number;
   date: string;
   tables: number;

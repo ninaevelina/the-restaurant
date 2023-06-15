@@ -1,10 +1,5 @@
 import { useContext, useState, ChangeEvent, FormEvent, useEffect } from "react";
-import {
-  BookingsContext,
-  CurrentBookingContext,
-} from "../contexts/BookingContext";
-import { IGuest } from "../models/IGuest";
-import { FormAdminStyled, FormStyled } from "./styled/FormStyled";
+import { FormAdminStyled } from "./styled/FormStyled";
 import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { IBooking } from "../models/IBooking";
 import { ActionType } from "../reducers/BookingsReducer";

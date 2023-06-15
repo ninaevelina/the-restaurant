@@ -1,9 +1,4 @@
-import { Navbar } from "../Navbar";
-import {
-  Wrapper,
-  WrapperColumn,
-  WrapperColumnCentered,
-} from "../styled/Wrapper";
+import { WrapperColumnCentered } from "../styled/Wrapper";
 import "../../scss/main.scss";
 
 export const Contact = () => {

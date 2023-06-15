@@ -21,6 +21,5 @@ export const StyledHero = styled.div`
   button {
     background-color: #b42e27;
     color: white;
-    //position: absolute;
   }
 `;
