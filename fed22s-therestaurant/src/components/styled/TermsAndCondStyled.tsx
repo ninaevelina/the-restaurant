@@ -10,6 +10,11 @@ export const TermsAndCondsStyled = styled.div`
     margin-left: 10px;
     padding-right: 10px;
     margin-top: 0;
+    @media screen and (min-width: 768px) {
+      font-size: 15px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
   }
   .gdprCheck {
     width: 35px;
