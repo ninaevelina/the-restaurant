@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Calendar from "react-calendar";
 import {
   BookingsContext,
@@ -17,8 +17,6 @@ export const CalendarReact = () => {
     disableSittingOption,
     bookings,
   } = useContext(BookingsContext);
-  // const [value, onChange] = useState("");
-  // const [seatingTime, setSeatingTime] = useState("");
 
   useEffect(() => {
     getBookings();
@@ -43,24 +41,18 @@ export const CalendarReact = () => {
         chosenBooking.sitting === "17-19" ? (time = "17-19") : (time = "19-21");
         tablesThatDay += chosenBooking.tables;
         peopleThatDay += chosenBooking.people;
-        //console.log(chosenBooking);
 
         if (chosenBooking.sitting) {
           if (tablesThatDay === 30) {
             console.log("helt fullbokat");
             fullyBooked();
-            // }
           }
         }
-        //  First sitting
-        if (chosenBooking.sitting === time) {
-          // If 90 guests = FULL
 
+        if (chosenBooking.sitting === time) {
           if (peopleThatDay === 90) {
             console.log("fullt med människor");
           }
-          // If 14 tables are booked = only 6 seats left
-          // If 15 tables are booked = FULL
 
           console.log(peopleThatDay, tablesThatDay);
 
@@ -72,7 +64,6 @@ export const CalendarReact = () => {
           }
 
           if (tablesThatDay === 15) {
-            //fullyBooked();
             disableSittingOption(time, "disableShowSeating");
           }
           if (tablesThatDay < 14) {
@@ -83,7 +74,6 @@ export const CalendarReact = () => {
     }
 
     updateDate(formattedDate);
-    // if (formattedDate) onChange(formattedDate);
   };
 
   return (

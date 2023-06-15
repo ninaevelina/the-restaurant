@@ -4,7 +4,6 @@ import { BookingDispatchContext } from "../contexts/BookingDispatchContext";
 import { ActionType } from "../reducers/BookingsReducer";
 import { deleteBooking } from "../services/restaurantApi";
 import { ShowCreateNewBooking } from "./ShowCreateNewBooking";
-import { IBooking } from "../models/IBooking";
 import Calendar from "react-calendar";
 import { Value } from "react-calendar/dist/cjs/shared/types";
 import {
@@ -12,10 +11,7 @@ import {
   BookingsContainer,
   TextBooking,
 } from "../components/styled/AdminBookingsContainer";
-import {
-  CalendarContainer,
-  CalendarContainerAdmin,
-} from "./styled/CalendarContainer";
+import { CalendarContainerAdmin } from "./styled/CalendarContainer";
 import {
   AllBookingsAdminButton,
   CancelCreateBookingAdminButton,
@@ -30,7 +26,6 @@ export const ShowAllBookingsAdmin = () => {
   console.log(bookings);
 
   const [showForm, setShowForm] = useState(false);
-  // const [showSortData, setShowSortData] = useState<IBooking[]>([]);;
   const [value, onChange] = useState("");
 
   const deleteCurrentBooking = (id: string) => {
@@ -52,7 +47,6 @@ export const ShowAllBookingsAdmin = () => {
     });
 
     console.log(sortData);
-    // setShowSortData(sortData);
 
     dispatch({
       type: ActionType.GOTALLBOOKINGS,

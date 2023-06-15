@@ -1,5 +1,4 @@
 import { IBooking } from "../models/IBooking";
-import { createNewBooking } from "../services/restaurantApi";
 
 export interface IAction {
   type: ActionType;

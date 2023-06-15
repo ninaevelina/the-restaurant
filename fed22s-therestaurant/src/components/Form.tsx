@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useContext, useState, useEffect } from "react";
-
 import { IGuest } from "../models/IGuest";
 import { FormStyled } from "./styled/FormStyled";
 import { CurrentBookingContext } from "../contexts/BookingContext";
@@ -11,8 +10,6 @@ import { LoadingAnimation } from "./LoadingAnimation";
 
 export const Form = () => {
   const { updateForm, addBooking, booking } = useContext(CurrentBookingContext);
-  // const [showTerms, setShowTerms] = useState(true);
-  // const [agreed, setAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState<IFormError>({
@@ -61,9 +58,6 @@ export const Form = () => {
       updateForm({ ...newBooking, [name]: +value });
     }
   };
-  // const handlCheckBoxChange = (termsAgreed: boolean) => {
-  //   setAgreed(termsAgreed);
-  // };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

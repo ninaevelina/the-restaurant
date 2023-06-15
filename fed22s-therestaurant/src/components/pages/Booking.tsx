@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarReact } from "../CalendarReact";
 import { Form } from "../Form";
 import {
@@ -8,21 +8,17 @@ import {
   IBookingContext,
 } from "../../contexts/BookingContext";
 import { IGuest } from "../../models/IGuest";
-import {
-  createNewBooking,
-  getAllBookings,
-  updateBooking,
-} from "../../services/restaurantApi";
+import { createNewBooking, getAllBookings } from "../../services/restaurantApi";
 import { GuestNumbers } from "../GuestNumbers";
 import { SittingOption } from "../SittingOption";
 import { Confirmation } from "../Confirmation";
 import { IBooking } from "../../models/IBooking";
-import { Value } from "react-calendar/dist/cjs/shared/types";
 import myImage from "../../assets/restaurantView_medium.jpg";
+import { BookingGoBackButton } from "../styled/BookingButtons";
 
 export const Booking = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showForm, setShowForm] = useState(false); //ska vara false
+  const [showForm, setShowForm] = useState(false);
   const [showGuest, setShowGuest] = useState(true);
   const [showSeatingTime, setShowSeatingTime] = useState(true);
   const [showFormAndPeople, setShowFormAndPeople] = useState(true);
@@ -35,9 +31,8 @@ export const Booking = () => {
   const [bookingInfo, setBookingInfo] = useState(
     "To make a reservation for 10+ people, please contact events@dirtytapas.com"
   );
-  const [hideForm, setHideForm] = useState(false); // nytt
-  const imageUrl = myImage; // or a dynamically calculated URL
-  //const [isLoading, setIsLoading] = useState(true);
+  const [hideForm, setHideForm] = useState(false);
+  const imageUrl = myImage;
 
   const [allBookings, setAllBookings] = useState<IAllBookingsContext>(() => ({
     bookings: [],
@@ -129,7 +124,7 @@ export const Booking = () => {
     showOrHideTime: string,
     disable: string
   ) => {
-    setDisableSittingOption(showOrHideTime); //time
+    setDisableSittingOption(showOrHideTime);
     setDisableSittingStyle(disable);
     console.log(showOrHideTime, disable);
   };
@@ -186,7 +181,7 @@ export const Booking = () => {
     console.log(currentBooking);
     console.log(result);
     setShowConfirmation(true);
-    setHideForm(true); // nytt
+    setHideForm(true);
 
     return result;
   };
@@ -205,8 +200,6 @@ export const Booking = () => {
     setShowImg(false);
   };
 
-  console.log(unAvailableGuestButton);
-  //nytt
   if (hideForm === false) {
     return (
       <>
@@ -244,17 +237,15 @@ export const Booking = () => {
                   </div>
                 )}
 
-                {/* // i Calender här ska vi göra en onclick som gör att när man väljer datum
-              blir show true */}
                 {showForm && (
                   <>
                     <Form></Form>
-                    <button
+                    <BookingGoBackButton
                       className="backButton"
                       onClick={handleFormBackClick}
                     >
                       Go back
-                    </button>
+                    </BookingGoBackButton>
                   </>
                 )}
               </div>
@@ -267,7 +258,6 @@ export const Booking = () => {
                 <button onClick={handleBackClick}>Go back</button>
               </>
             )}
-            {/*showConfirmation && <Confirmation></Confirmation> moved up*/}
           </CurrentBookingContext.Provider>
         </BookingsContext.Provider>
       </>

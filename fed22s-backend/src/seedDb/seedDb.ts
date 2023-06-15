@@ -11,12 +11,8 @@ const populateDbWithMockData = async (connectionString: string) => {
 
     console.log(`MongoDB connected: ${conn.connection.host}`);
 
-    // const conn = mongoose.createConnection(connectionString);
-    // const Booking = conn.model("Booking", bookingSchema);
-
     await Booking.deleteMany();
 
-    // await Booking.create(mockBookingsData);
     const res = await Booking.create(mockBookingsData);
 
     console.log("Created:", res);
@@ -24,7 +20,7 @@ const populateDbWithMockData = async (connectionString: string) => {
     console.log("Database successfully populated with test data");
 
     const bookingsFromDb = await Booking.find<IBooking>();
-    // console.log((bookingsFromDb).map((booking) => booking.people));
+
     console.log(bookingsFromDb);
   } catch (error) {
     console.error(error);

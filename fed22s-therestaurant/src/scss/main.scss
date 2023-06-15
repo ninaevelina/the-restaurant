@@ -61,9 +61,6 @@
   font-weight: 600;
   display: flex;
   flex-direction: column;
-  //display: grid;
-  //grid-template-columns: 1fr;
-
   justify-content: center;
   align-items: center;
   color: black;
@@ -77,11 +74,15 @@
   a {
     color: black;
   }
+}
 
-  @include mixins.for-size(medium) {
-    //justify-content: center;
-    &__column--socials {
-      display: none;
-    }
+.backToHomepage {
+  border: solid black 1px;
+  color: black;
+  padding: 10px;
+  border-radius: 8px;
+  &:hover {
+    background-color: #b42e27;
+    color: white;
   }
 }

@@ -4,7 +4,6 @@ import {
   BookingsContext,
   CurrentBookingContext,
 } from "../contexts/BookingContext";
-import { IBooking } from "../models/IBooking";
 
 interface disableTimeProps {
   showOrHideTime: string;
@@ -15,12 +14,6 @@ export const SittingOption = ({
   showOrHideTime,
   changeVisability,
 }: disableTimeProps) => {
-  // console.log(showOrHideTime);
-  console.log(changeVisability);
-
-  // const [first, setFirst] = useState(true);
-  // const [second, setSecond] = useState(false);
-  const { bookings } = useContext(BookingsContext);
   const { updateSeating } = useContext(CurrentBookingContext);
   const [toggleFirstVisability, setToggleFirstVisability] =
     useState("showSeating");
@@ -30,8 +23,6 @@ export const SittingOption = ({
   const handleClickSitting = (e: React.MouseEvent, theSitting: string) => {
     e.preventDefault();
     updateSeating(theSitting);
-
-    // console.log(newSitting);
   };
 
   useEffect(() => {
@@ -43,10 +34,6 @@ export const SittingOption = ({
       setToggleSecondVisability(changeVisability);
       setToggleFirstVisability("showSeating");
     }
-    // bookings.map((b) => {
-    //   if (b.tables < 15) {
-    //   }
-    // });
 
     if (showOrHideTime === "") {
       setToggleFirstVisability("showSeating");

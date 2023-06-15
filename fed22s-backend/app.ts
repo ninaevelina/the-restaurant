@@ -1,15 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-// import "express-async-errors";
 import mongoose from "mongoose";
 import bookingRoutes from "./src/routes/bookingRoutes";
-
-//import adminRoutes from "./src/routes/adminRoutes";
-
-import path from "path";
-import { json } from "express";
-import { env } from "process";
 import cors from "cors";
 
 const app = express();
@@ -30,8 +23,6 @@ app.use(
 );
 
 app.use("/api/v1/booking", bookingRoutes);
-
-//app.use("/api/v1/admin", adminRoutes);
 
 app.use((req, res) => {
   const isApiPath = req.path.startsWith("/api/");
