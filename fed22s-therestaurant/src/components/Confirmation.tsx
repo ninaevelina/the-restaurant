@@ -16,12 +16,15 @@ export const Confirmation = () => {
   const { booking } = useContext(CurrentBookingContext);
   const dispatch = useContext(BookingDispatchContext);
   const [showDeleted, setShowDeleted] = useState(false);
+  //const [isLoading, setIsLoading] = useState(true);
 
-  const handleClick = () => {
-    deleteBooking(booking._id);
+  const handleClick = async () => {
+    // setIsLoading(true);
+    await deleteBooking(booking._id);
     console.log("log");
     setShowConfirmation(false);
     setShowDeleted(true);
+    // setIsLoading(false);
   };
 
   if (showDeleted === false) {
@@ -30,26 +33,43 @@ export const Confirmation = () => {
         {showConfirmation && (
           <div>
             <h2>Thank you, {booking.guest.name}</h2>
-
-            <p>{booking.people} guests</p>
-            <p>
-              {booking.date} {booking.sitting}
-            </p>
-
             <div>
-              <h3>Booking details</h3>
-              <span>Booking Reference {""}</span>
-              <span># {booking._id}</span>
+              <div>
+                <span>Guests: {""}</span>
+                <span>{booking.people} guests</span>
+              </div>
+              <div>
+                {" "}
+                <span>
+                  Date: {booking.date} {booking.sitting}
+                </span>
+              </div>
+
+              <div>
+                <span>Order: {""}</span>
+                <span>#{booking._id}</span>
+              </div>
             </div>
             <div>
               <h4>Guest details</h4>
-              <p>
-                {booking.guest.name} {booking.guest.lastname}
-              </p>
-              <p>{booking.guest.email}</p>
-              <p>{booking.guest.phone}</p>
+              <div>
+                <span>Name: </span>
+                <span>
+                  {booking.guest.name} {booking.guest.lastname}
+                </span>
+              </div>
+              <div>
+                <span>Email: </span>
+                <span>{booking.guest.email}</span>
+              </div>
+              <div>
+                <span>Phone: </span>
+                <span>{booking.guest.phone}</span>
+              </div>
             </div>
-            <button onClick={handleClick}>Delete</button>
+            <div>
+              <button onClick={handleClick}>Delete</button>
+            </div>
           </div>
         )}
       </>
