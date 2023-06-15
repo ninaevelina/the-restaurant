@@ -1,7 +1,7 @@
 require("dotenv").config();
 import { Booking, IBooking, bookingSchema } from "../models/Booking";
 import { mockBookingsData } from "./bookings";
-import bookings from "./data/bookings.json";
+
 import mongoose from "mongoose";
 const populateDbWithMockData = async (connectionString: string) => {
   try {
