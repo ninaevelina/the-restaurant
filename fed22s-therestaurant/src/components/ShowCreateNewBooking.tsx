@@ -11,8 +11,8 @@ import { ActionType } from "../reducers/BookingsReducer";
 import { createNewBooking } from "../services/restaurantApi";
 import { IFormError } from "../models/IFormError";
 import { ErrorMessage } from "./styled/ErrorMessageStyled";
-import "../scss/admin.scss";
 import { ButtonAdmin } from "./styled/ButtonAdmin";
+import { TextBooking } from "./styled/AdminBookingsContainer";
 
 export const ShowCreateNewBooking = () => {
   const dispatch = useContext(BookingDispatchContext);
@@ -237,7 +237,7 @@ export const ShowCreateNewBooking = () => {
   return (
     <>
       <FormAdminStyled onSubmit={handleSubmitAdmin}>
-        <label>Date</label>
+        <TextBooking>Date</TextBooking>
         <input
           type="text"
           name="date"
@@ -250,7 +250,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Guests</label>
+        <TextBooking>Guests</TextBooking>
         <input
           type="number"
           name="people"
@@ -263,7 +263,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Sitting</label>
+        <TextBooking>Sitting</TextBooking>
         <input
           type="text"
           name="sitting"
@@ -276,7 +276,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Tables</label>
+        <TextBooking>Tables</TextBooking>
         <input
           type="number"
           name="tables"
@@ -288,7 +288,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Firstname</label>
+        <TextBooking>Firstname</TextBooking>
         <input
           type="text"
           name="name"
@@ -301,7 +301,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Lastname</label>
+        <TextBooking>Lastname</TextBooking>
         <input
           type="text"
           name="lastname"
@@ -314,7 +314,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Email</label>
+        <TextBooking>Email</TextBooking>
         <input
           type="email"
           name="email"
@@ -327,7 +327,7 @@ export const ShowCreateNewBooking = () => {
           <ErrorMessage>{errors.inputRequiredMessage}</ErrorMessage>
         )}
 
-        <label>Phone</label>
+        <TextBooking>Phone</TextBooking>
         <input
           type="number"
           name="phone"

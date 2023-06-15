@@ -7,12 +7,21 @@ import { ShowCreateNewBooking } from "./ShowCreateNewBooking";
 import { IBooking } from "../models/IBooking";
 import Calendar from "react-calendar";
 import { Value } from "react-calendar/dist/cjs/shared/types";
-import { BookingsContainer } from "../components/styled/AdminBookingsContainer";
+import {
+  BookingContainerMain,
+  BookingsContainer,
+  TextBooking,
+} from "../components/styled/AdminBookingsContainer";
 import {
   CalendarContainer,
   CalendarContainerAdmin,
 } from "./styled/CalendarContainer";
-import { DeleteBookingAdmin } from "./styled/ButtonAdmin";
+import {
+  AllBookingsAdminButton,
+  CancelCreateBookingAdminButton,
+  CreateBookingsAdminButton,
+  DeleteBookingAdminButton,
+} from "./styled/ButtonAdmin";
 
 export const ShowAllBookingsAdmin = () => {
   const { bookings, filteredBookings } = useContext(BookingAdminContext);
@@ -54,22 +63,22 @@ export const ShowAllBookingsAdmin = () => {
   const data = filteredBookings.map((b) => {
     return (
       <BookingsContainer key={b._id}>
-        <p>date: {b.date}</p>
-        <p>guests: {b.people}</p>
-        <p>Sitting: {b.sitting}</p>
-        <p>Firstname: {b.guest.name}</p>
-        <p>Lastname: {b.guest.lastname}</p>
-        <p>Phone: {b.guest.phone}</p>
-        <p>email: {b.guest.email}</p>
+        <TextBooking>date: {b.date}</TextBooking>
+        <TextBooking>guests: {b.people}</TextBooking>
+        <TextBooking>Sitting: {b.sitting}</TextBooking>
+        <TextBooking>Firstname: {b.guest.name}</TextBooking>
+        <TextBooking>Lastname: {b.guest.lastname}</TextBooking>
+        <TextBooking>Phone: {b.guest.phone}</TextBooking>
+        <TextBooking>email: {b.guest.email}</TextBooking>
 
-        <DeleteBookingAdmin
+        <DeleteBookingAdminButton
           onClick={() => {
             deleteCurrentBooking(b._id.toString()),
               deleteBooking(b._id.toString());
           }}
         >
           delete booking
-        </DeleteBookingAdmin>
+        </DeleteBookingAdminButton>
       </BookingsContainer>
     );
   });
@@ -88,14 +97,22 @@ export const ShowAllBookingsAdmin = () => {
 
   return (
     <>
-      <button onClick={sortDataDate}>All Bookings</button>
-      <button onClick={showCreateForm}>create new booking</button>
+      <AllBookingsAdminButton onClick={sortDataDate}>
+        All Bookings
+      </AllBookingsAdminButton>
+      <CreateBookingsAdminButton onClick={showCreateForm}>
+        create new booking
+      </CreateBookingsAdminButton>
       {showForm && <ShowCreateNewBooking></ShowCreateNewBooking>}
-      {showForm && <button onClick={cancelNewBooking}>Cancel</button>}
+      {showForm && (
+        <CancelCreateBookingAdminButton onClick={cancelNewBooking}>
+          Cancel
+        </CancelCreateBookingAdminButton>
+      )}
       <CalendarContainerAdmin>
         <Calendar onChange={handleSortChange} value={value} />
       </CalendarContainerAdmin>
-      <div>{data}</div>
+      <BookingContainerMain>{data}</BookingContainerMain>
     </>
   );
 };

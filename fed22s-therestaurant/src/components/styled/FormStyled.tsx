@@ -24,7 +24,6 @@ export const FormStyled = styled.form`
 `;
 
 export const FormAdminStyled = styled.form`
-  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,8 +33,5 @@ export const FormAdminStyled = styled.form`
   input {
     width: 320px;
     height: 30px;
-  }
-
-  input:focus {
   }
 `;
