@@ -5,11 +5,15 @@ import { FormStyled } from "./styled/FormStyled";
 import { CurrentBookingContext } from "../contexts/BookingContext";
 import { TermsAndConds } from "./TermsAndCond";
 import { IFormError } from "../models/IFormError";
+import { BookingConfirmButton } from "./styled/BookingButtons";
+import { ErrorMessage } from "./styled/ErrorMessageStyled";
+import { LoadingAnimation } from "./LoadingAnimation";
 
 export const Form = () => {
   const { updateForm, addBooking, booking } = useContext(CurrentBookingContext);
   // const [showTerms, setShowTerms] = useState(true);
   // const [agreed, setAgreed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState<IFormError>({
     inputRequired: false,
@@ -61,9 +65,11 @@ export const Form = () => {
   //   setAgreed(termsAgreed);
   // };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    addBooking();
+    setIsLoading(true);
+    await addBooking();
+    setIsLoading(false);
   };
 
   const validateFirstname = (): boolean => {
@@ -124,59 +130,70 @@ export const Form = () => {
     }
     return false;
   };
-
-  return (
-    <>
-      <div>
-        <FormStyled onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Firstname"
-            value={booking.guest.name}
-            onChange={handleChange}
-            required
-          ></input>
-          {showFirstname && errors.inputRequired && (
-            <div className="error">{errors.inputRequiredMessage}</div>
-          )}
-          <input
-            type="text"
-            name="lastname"
-            placeholder="Lastname"
-            value={booking.guest.lastname}
-            onChange={handleChange}
-            required
-          ></input>{" "}
-          {showLastname && errors.inputRequired && (
-            <div className="error">{errors.inputRequiredMessage}</div>
-          )}
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={booking.guest.email}
-            onChange={handleChange}
-            required
-          ></input>
-          {showEmail && errors.inputRequired && (
-            <div className="error">{errors.inputRequiredMessage}</div>
-          )}
-          <input
-            type="number"
-            name="phone"
-            placeholder="Phone"
-            value={booking.guest.phone}
-            onChange={handleChange}
-            required
-          ></input>
-          {showPhone && errors.inputRequired && (
-            <div className="error">{errors.inputRequiredMessage}</div>
-          )}
-          <TermsAndConds></TermsAndConds>
-          <button>Confirm Booking</button>
-        </FormStyled>
-      </div>
-    </>
-  );
+  if (isLoading === false) {
+    return (
+      <>
+        <div>
+          <FormStyled onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Firstname"
+              value={booking.guest.name}
+              onChange={handleChange}
+              required
+            ></input>
+            {showFirstname && errors.inputRequired && (
+              <ErrorMessage className="error">
+                {errors.inputRequiredMessage}
+              </ErrorMessage>
+            )}
+            <input
+              type="text"
+              name="lastname"
+              placeholder="Lastname"
+              value={booking.guest.lastname}
+              onChange={handleChange}
+              required
+            ></input>{" "}
+            {showLastname && errors.inputRequired && (
+              <ErrorMessage className="error">
+                {errors.inputRequiredMessage}
+              </ErrorMessage>
+            )}
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={booking.guest.email}
+              onChange={handleChange}
+              required
+            ></input>
+            {showEmail && errors.inputRequired && (
+              <ErrorMessage className="error">
+                {errors.inputRequiredMessage}
+              </ErrorMessage>
+            )}
+            <input
+              type="number"
+              name="phone"
+              placeholder="Phone"
+              value={booking.guest.phone}
+              onChange={handleChange}
+              required
+            ></input>
+            {showPhone && errors.inputRequired && (
+              <ErrorMessage className="error">
+                {errors.inputRequiredMessage}
+              </ErrorMessage>
+            )}
+            <TermsAndConds></TermsAndConds>
+            <BookingConfirmButton>Confirm Booking</BookingConfirmButton>
+          </FormStyled>
+        </div>
+      </>
+    );
+  } else {
+    return <>{isLoading && <LoadingAnimation></LoadingAnimation>}</>;
+  }
 };
