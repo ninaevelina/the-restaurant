@@ -251,11 +251,13 @@ export const Booking = () => {
               </div>
             ) : (
               <>
-                <h3>
+                <h3 className="fullBookedText">
                   Sorry we are fully booked on this date, please go back and try
                   another day!
                 </h3>
-                <button onClick={handleBackClick}>Go back</button>
+                <button className="fullBookedButton" onClick={handleBackClick}>
+                  Go back
+                </button>
               </>
             )}
           </CurrentBookingContext.Provider>
