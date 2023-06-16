@@ -203,14 +203,6 @@ export const Booking = () => {
   if (hideForm === false) {
     return (
       <>
-        {showImg && (
-          <img
-            className="bookingImage"
-            src={imageUrl}
-            alt="photo of restaurant"
-          />
-        )}
-
         <BookingsContext.Provider value={allBookings}>
           <CurrentBookingContext.Provider value={currentBooking}>
             {showConfirmation && <Confirmation></Confirmation>}
@@ -219,7 +211,6 @@ export const Booking = () => {
                 <CalendarReact></CalendarReact>
               </div>
             )}
-
             {showFormAndPeople ? (
               <div>
                 {showSeatingTime && showGuest && (
@@ -236,18 +227,26 @@ export const Booking = () => {
                     ></GuestNumbers>
                   </div>
                 )}
-
-                {showForm && (
-                  <>
-                    <Form></Form>
-                    <BookingGoBackButton
-                      className="backButton"
-                      onClick={handleFormBackClick}
-                    >
-                      Go back
-                    </BookingGoBackButton>
-                  </>
-                )}
+                <div className="bookingWrapper">
+                  {showImg && (
+                    <img
+                      className="bookingImage"
+                      src={imageUrl}
+                      alt="photo of restaurant"
+                    />
+                  )}
+                  {showForm && (
+                    <>
+                      <Form></Form>
+                      <BookingGoBackButton
+                        className="backButton"
+                        onClick={handleFormBackClick}
+                      >
+                        Go back
+                      </BookingGoBackButton>
+                    </>
+                  )}
+                </div>
               </div>
             ) : (
               <>

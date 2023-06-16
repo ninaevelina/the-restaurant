@@ -31,5 +31,5 @@ export const ContainerLogo = styled.div`
 
 export const Logo = styled.h1`
   color: white;
-  margin-bottom: 200px;
+  margin-bottom: 150px;
 `;

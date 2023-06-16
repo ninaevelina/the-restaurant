@@ -7,6 +7,10 @@ export const NavbarStyled = styled.nav`
   flex-direction: row;
   gap: 10px;
   justify-content: flex-end;
+
+  a:nth-child(3) {
+    padding-right: 20px;
+  }
 `;
 
 export const pStyled = styled.p`

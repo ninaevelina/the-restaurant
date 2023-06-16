@@ -21,6 +21,19 @@
   margin-top: 20px;
 }
 
+.bookingWrapper {
+  @include mixins.for-size(medium) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  @include mixins.for-size(large) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 .bookingInfo {
   font-size: 13px;
   margin-bottom: 30px;
@@ -29,9 +42,14 @@
   width: 390px;
   height: 400px;
 
+  @include mixins.for-size(medium) {
+    width: 500px;
+    height: 915px;
+  }
+
   @include mixins.for-size(large) {
-    width: 600px;
-    height: 600px;
+    width: 750px;
+    height: 915px;
   }
 }
 
@@ -41,7 +59,9 @@
   padding-left: 50px;
   padding-right: 50px;
   @include mixins.for-size(large) {
-    margin-bottom: 20px;
+    height: 40px;
+    margin-top: 400px;
+    display: none; // försök fixa knappen så den inte sitter i mitten
   }
 }
 

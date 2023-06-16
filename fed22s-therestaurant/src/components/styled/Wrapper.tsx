@@ -23,5 +23,5 @@ export const WrapperColumnCentered = styled.div`
   place-content: center;
   width: 250px;
   height: 250px;
-  margin-top: 50px;
+  margin-top: 0px;
 `;

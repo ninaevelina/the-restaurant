@@ -8,6 +8,12 @@ export const FormStyled = styled.form`
   gap: 13px;
   margin-top: 30px;
 
+  @media screen and (min-width: 768px) {
+    width: 0px;
+    margin-left: 450px;
+    margin-top: 130px;
+  }
+
   input {
     width: 350px;
     height: 30px;
@@ -17,6 +23,10 @@ export const FormStyled = styled.form`
     margin-top: -17px;
     margin-bottom: 10px;
     border: 1px solid black;
+
+    @media screen and (min-width: 768px) {
+      width: 200px;
+    }
   }
 `;
 
