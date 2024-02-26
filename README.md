@@ -43,6 +43,10 @@ _Install dependencies_
 npm i
 ```
 
+_Add environment variables_
+
+In the root of the backend directory - create an `.env`-file for environment variables. View `env.example` to get the necessary environment variables 🔑
+
 _Run backend server_
 
 ```terminal
